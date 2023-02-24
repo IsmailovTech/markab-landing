@@ -1,13 +1,15 @@
+import Footers from './components/Footer/Footers'
 import FormInfos from './components/FormInfo/FormInfos'
 import MobileFilters from './components/MobileFilter/MobileFilters'
 import Navbar from './components/Navbar/Navbar'
 
 function App() {
   return (
-    <div className="App mb-24">
+    <div className="App">
       <Navbar />
-       {/* <MobileFilters />  */}
+      {/* <MobileFilters />  */}
       <FormInfos />
+      <Footers />
     </div>
   )
 }

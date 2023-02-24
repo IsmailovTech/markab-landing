@@ -1,29 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import cloud from "../../Assets/images/idi.png";
+import idimg from "../../Assets/images/IDimg.png";
 
 const initialValues = {
-  name: "",
+  firstname: "",
   lastname: "",
   fathername: "",
   creditCard: "",
   expireDate: "",
   phoneNumber: "",
-  file: null, // new field for the file data
-  //   number: "",
+  file: null,
+  file2: null,
+  agreeToTerms: false, // added new field for checkbox
 };
 
 function FormInfos() {
   const onSubmit = (values, { resetForm }) => {
-    console.log(1111, values);
-    values.name = "";
+    console.log(values);
+
+    toast.success("Ma'lumotlaringiz muvaffaqiyatli jo'natildi!");
+
     resetForm({ values: "" });
   };
 
-  const phoneRegExp = /^[0-9]{9}$/;
-
   const validationSchema = Yup.object({
-    name: Yup.string().required(
+    firstname: Yup.string().required(
       "Foydalanuvchi nomi talab qilinadi, kamida 3 ta belgi"
     ),
     lastname: Yup.string().required(
@@ -35,8 +39,22 @@ function FormInfos() {
     creditCard: Yup.number("Faqat raqam bo'lishi kerak").required("Unvalid"),
     phoneNumber: Yup.number("Faqat raqam bo'lishi kerak").required("Unvalid"),
     expireDate: Yup.number("Faqat raqam bo'lishi kerak").required("Unvalid"),
-
+    agreeToTerms: Yup.bool().oneOf([true], "Tasdiqlang"), // added validation for checkbox
     file: Yup.mixed()
+      .required("Faylni yuklash kerak")
+      .test(
+        "fileSize",
+        "Fayl juda katta",
+        (value) => value && value.size <= 5000000
+      ) // max 5MB
+      .test(
+        "fileType",
+        "Fayl turi noto'g'ri",
+        (value) =>
+          value &&
+          ["image/jpeg", "image/png", "application/pdf"].includes(value.type)
+      ),
+    file2: Yup.mixed()
       .required("Faylni yuklash kerak")
       .test(
         "fileSize",
@@ -82,21 +100,21 @@ function FormInfos() {
           <div className="flex w-full items-center justify-between gap-6 mt-2">
             <div className="relative w-full">
               <input
-                type="text"
+                type="firstname"
                 id="floating_outlined"
-                name="name"
+                name="firstname"
                 className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
-                  formik.touched.name && formik.errors.name
+                  formik.touched.firstname && formik.errors.firstname
                     ? " border-red-600 focus:border-red-600 "
                     : "border-green-main focus:border-blue-600"
                 } text-black focus:outline-none focus:ring-0  peer`}
                 placeholder=" "
-                {...formik.getFieldProps("name")}
+                {...formik.getFieldProps("firstname")}
               />
               <label
                 htmlFor="floating_outlined"
                 className={`absolute text-sm ${
-                  formik.touched.name && formik.errors.name
+                  formik.touched.firstname && formik.errors.firstname
                     ? "text-red-600 peer-focus:dark:text-red-600"
                     : "text-green-main peer-focus:text-blue-600"
                 } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
@@ -104,9 +122,9 @@ function FormInfos() {
                 Ismingiz
               </label>
 
-              {formik.touched.name && formik.errors.name ? (
+              {formik.touched.firstname && formik.errors.firstname ? (
                 <span className="text-red-600 text-xs absolute  left-2">
-                  {formik.errors.name}
+                  {formik.errors.firstname}
                 </span>
               ) : null}
             </div>
@@ -263,56 +281,144 @@ function FormInfos() {
           <h4 className="text-gray-400 text-lg mt-12">
             PASSPORT MA’LUMOTLARINGIZNI KIRITING
           </h4>
-          <p className="text-green-main font-semibold text-xl">
-            Загрузите обе стороны паспорта
-          </p>
-          <p className="text-green-main mt-7">PDF, JPG</p>
+          <div className="flex justify-between items-center mt-4">
+            <div>
+              <p className="text-green-main font-semibold text-xl">
+                Загрузите обе стороны паспорта
+              </p>
+              <p className="text-green-main mt-7">PDF, JPG</p>
 
-          <div className="relative mt-2 ">
-            <input
-              type="file"
-              id="file"
-              name="file"
-              accept=" image/jpeg, image/png, application/pdf"
-              lang="ru"
-              className="block text-sm "
-              onChange={(event) => {
-                formik.setFieldValue("file", event.currentTarget.files[0]);
-              }}
-            />
+              <div className="relative mt-2 ">
+                <input
+                  type="file"
+                  id="file"
+                  name="file"
+                  accept=" image/jpeg, image/png, application/pdf"
+                  lang="ru"
+                  className="block text-sm "
+                  onChange={(event) => {
+                    formik.setFieldValue("file", event.currentTarget.files[0]);
+                  }}
+                />
 
-            {formik.touched.file && formik.errors.file && (
-              <div className="text-red-600 text-sm pt-0.5">
-                {formik.errors.file}
-              </div>
-            )}
+                {formik.touched.file && formik.errors.file && (
+                  <div className="text-red-600 text-sm pt-0.5">
+                    {formik.errors.file}
+                  </div>
+                )}
 
-            {formik.values.file ? (
-              <div className="flex flex-col gap-2">
-                {formik.values.file.type.includes("image") && (
+                {formik.values.file ? (
+                  <div className="flex flex-col gap-2 mt-8">
+                    {formik.values.file.type.includes("image") && (
+                      <img
+                        src={URL.createObjectURL(formik.values.file)}
+                        alt="file-preview"
+                        className="h-48 w-80 object-contain"
+                      />
+                    )}
+                    {formik.values.file.type.includes("pdf") && (
+                      <iframe
+                        src={URL.createObjectURL(formik.values.file)}
+                        title="file-preview"
+                        className="h-48 w-80 object-contain"
+                      ></iframe>
+                    )}
+                  </div>
+                ) : (
                   <img
-                    src={URL.createObjectURL(formik.values.file)}
-                    alt="file-preview"
-                    className="h-20 w-20 object-contain"
+                    className="h-48 w-80 border-2 rounded-xl mt-8"
+                    src={cloud}
+                    alt="cloud_svg "
                   />
                 )}
-                {formik.values.file.type.includes("pdf") && (
-                  <iframe
-                    src={URL.createObjectURL(formik.values.file)}
-                    title="file-preview"
-                    className="h-20 w-20 object-contain"
-                  ></iframe>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-green-main font-semibold text-xl">
+                Passport bilan tushgan rasmingiz
+              </p>
+              <p className="text-green-main mt-7">PDF, JPG</p>
+
+              <div className="relative mt-2 ">
+                <input
+                  type="file"
+                  id="file2"
+                  name="file2"
+                  accept=" image/jpeg, image/png, application/pdf"
+                  lang="ru"
+                  className="block text-sm "
+                  onChange={(event) => {
+                    formik.setFieldValue("file2", event.currentTarget.files[0]);
+                  }}
+                />
+
+                {formik.touched.file2 && formik.errors.file2 && (
+                  <div className="text-red-600 text-sm pt-0.5">
+                    {formik.errors.file2}
+                  </div>
+                )}
+
+                {formik.values.file2 ? (
+                  <div className="flex flex-col gap-2 mt-8">
+                    {formik.values.file2.type.includes("image") && (
+                      <img
+                        src={URL.createObjectURL(formik.values.file2)}
+                        alt="file-preview"
+                        className="h-48 w-80 object-contain"
+                      />
+                    )}
+                    {formik.values.file2.type.includes("pdf") && (
+                      <iframe
+                        src={URL.createObjectURL(formik.values.file2)}
+                        title="file-preview"
+                        className="h-48 w-80 object-contain"
+                      ></iframe>
+                    )}
+                  </div>
+                ) : (
+                  <img src={idimg} alt="cloud_svg" className="h-48 mt-8 " />
                 )}
               </div>
-            ) : (
-              "Upload a photo"
-            )}
+            </div>
           </div>
 
-          <button type="submit" className=" mt-8 border">
-            asd
+          {/* ========================= AGREETOTERMS */}
+
+          <div className="flex items-center gap-4 justify-center ml-28 font-semibold mt-16">
+            <div>
+              <input
+                type="checkbox"
+                name="agreeToTerms"
+                id="agreeToTerms"
+                className="h-9 w-9 rounded  text-primary focus:outline-none border border-primary focus:border-primary transition duration-300 ease-in-out"
+                checked={formik.values.agreeToTerms}
+                onChange={formik.handleChange}
+              />
+
+              {formik.touched.file && formik.errors.file && (
+                <div className="absolute text-red-600 text-sm pt-0.5">
+                  {formik.errors.agreeToTerms}
+                </div>
+              )}
+            </div>
+            <a
+              href="https://docs.google.com/document/d/1S7CNykliwhXK-qlHmtHsQOe8Xtxzcqam/edit?usp=sharing&ouid=109094856157650499566&rtpof=true&sd=true"
+              target="_blank"
+              className="text-3xl text-green-main underline"
+            >
+              Soglasovaniyani qabul qilaman
+            </a>
+          </div>
+
+          <button
+            type="submit"
+            className=" border-2 border-green-main bg-transparent text-green-main px-2 py-4 font-semibold text-xl rounded-lg mt-8 hover:text-white hover:bg-green-main transition-all ease-in-out duration-300"
+          >
+            Ma'lumotlarni yuborish
           </button>
         </form>
+        <Toaster position="top-center" reverseOrder={false} />
       </div>
     </div>
   );
