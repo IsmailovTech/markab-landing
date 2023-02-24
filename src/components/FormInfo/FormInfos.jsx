@@ -24,6 +24,8 @@ function FormInfos() {
     toast.success("Ma'lumotlaringiz muvaffaqiyatli jo'natildi!");
 
     resetForm({ values: "" });
+    document.getElementById("file").value = "";
+    document.getElementById("file2").value = "";
   };
 
   const validationSchema = Yup.object({
@@ -294,7 +296,6 @@ function FormInfos() {
                   id="file"
                   name="file"
                   accept=" image/jpeg, image/png, application/pdf"
-                  lang="ru"
                   className="block text-sm "
                   onChange={(event) => {
                     formik.setFieldValue("file", event.currentTarget.files[0]);
