@@ -6,11 +6,11 @@ import cloud from "../../Assets/images/idi.png";
 import idimg from "../../Assets/images/IDimg.png";
 
 const initialValues = {
+  creditCard: "",
+  expireDate: "",
   firstname: "",
   lastname: "",
   fathername: "",
-  creditCard: "",
-  expireDate: "",
   phoneNumber: "",
   file: null,
   file2: null,
@@ -38,9 +38,9 @@ function FormInfos() {
     fathername: Yup.string().required(
       "Foydalanuvchi sharifi talab qilinadi, kamida 3 ta belgi"
     ),
-    creditCard: Yup.number("Faqat raqam bo'lishi kerak").required("Unvalid"),
+    creditCard: Yup.mixed().required("Unvalid"),
     phoneNumber: Yup.number("Faqat raqam bo'lishi kerak").required("Unvalid"),
-    expireDate: Yup.number("Faqat raqam bo'lishi kerak").required("Unvalid"),
+    expireDate: Yup.mixed().required("Unvalid"),
     agreeToTerms: Yup.bool().oneOf([true], "Tasdiqlang"), // added validation for checkbox
     file: Yup.mixed()
       .required("Faylni yuklash kerak")
@@ -77,6 +77,20 @@ function FormInfos() {
     onSubmit,
     validationSchema,
   });
+
+  const handleCreditCardChange = (event) => {
+    const { value } = event.target;
+    const cardNumber = value.replace(/[^\d]/g, "").substr(0, 16);
+    const formattedCardNumber = cardNumber.replace(/(\d{4})(?=\d)/g, "$1-");
+    formik.setFieldValue("creditCard", formattedCardNumber);
+  };
+
+  const handleExpireDateChange = (event) => {
+    const { value } = event.target;
+    const expireDate = value.replace(/[^\d]/g, "").substr(0, 4);
+    const formattedExpireDate = expireDate.replace(/(\d{2})/, "$1/");
+    formik.setFieldValue("expireDate", formattedExpireDate);
+  };
 
   return (
     <div className="w-full mt-4">
@@ -243,9 +257,10 @@ function FormInfos() {
                     : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
                 } text-black focus:outline-none focus:ring-0  peer`}
                 placeholder="0000-0000-0000-0000"
-                maxLength="16"
-                minLength="16"
-                {...formik.getFieldProps("creditCard")}
+                maxLength="19"
+                minLength="19"
+                onChange={handleCreditCardChange}
+                value={formik.values.creditCard}
               />
 
               {formik.touched.creditCard && formik.errors.creditCard ? (
@@ -266,9 +281,10 @@ function FormInfos() {
                     : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
                 } text-black focus:outline-none focus:ring-0  peer`}
                 placeholder="12/25"
-                maxLength="4"
-                minLength="4"
-                {...formik.getFieldProps("expireDate")}
+                maxLength="5"
+                minLength="5"
+                onChange={handleExpireDateChange}
+                value={formik.values.expireDate}
               />
 
               {formik.touched.expireDate && formik.errors.expireDate ? (
