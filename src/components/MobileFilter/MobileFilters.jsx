@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import filter from "../../Assets/images/Filtericon.svg";
 import samsung from "../../Assets/images/samsung.png";
 import correct from "../../Assets/images/correct.svg";
+import { IntlProvider, FormattedMessage } from "react-intl";
+import messages from "../message"; // import messages for the component
 
 // Fake JSON data
 const phoneModelsData = [
@@ -110,7 +112,7 @@ const colors = [
   { name: "gray" },
 ];
 
-function MobileFilters() {
+function MobileFilters({ lang, setLang }) {
   const [selectedModel, setSelectedModel] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
@@ -144,13 +146,10 @@ function MobileFilters() {
       <div className="w-full container mx-auto px-36">
         <div className=" flex flex-col max-w-[727px]">
           <h1 className="text-[40px] font-semibold text-green-main">
-            Markab orqali mobil qurilmalarni bo’lib to’lashga arzon narxlarda
-            xarid qiling!
+            <FormattedMessage id="title" />
           </h1>
           <p className="text-2xl mt-4">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type{" "}
+            <FormattedMessage id="main_p" />
           </p>
         </div>
 
@@ -158,7 +157,7 @@ function MobileFilters() {
           <div className=" border-r border-black w-[400px]  pr-4 min-h-[700px]">
             <button className="text-white bg-gradient-to-br mt-2 from-green-main to-emerald-400 hover:bg-gradient-to-bl   text-[40px]  w-[361px] text-center flex items-center justify-start px-6 gap-14 rounded-lg ">
               <img src={filter} alt="filter icon" />
-              Modellar
+              <FormattedMessage id="models" />
             </button>
             <div className="flex flex-col max-w-[280px] mt-4 gap-2">
               {models.map((model) => (
@@ -239,12 +238,16 @@ function MobileFilters() {
 
           <div className=" w-full flex flex-col items-center">
             <h2 className="text-4xl font-semibold mt-2 text-center text-green-main">
-              Modelning tanlang
+              <FormattedMessage id="model_choose" />
             </h2>
             {/* ==================== Selecting options */}
             <div className="categories w-[285px] mt-8 ">
               <h2 className=" h-[47px] bg-green-main text-white flex items-center justify-center rounded-md text-xl ">
-                {selectedModel ? selectedModel.name : "Select a Model"}
+                {selectedModel ? (
+                  selectedModel.name
+                ) : (
+                  <FormattedMessage id="model_choose" />
+                )}
               </h2>
               <select
                 value={selectedCategory ? selectedCategory : ""}
@@ -252,7 +255,9 @@ function MobileFilters() {
                 disabled={!selectedModel}
                 className=" w-full h-[47px] bg-transparent  text-green-main border-2 border-green-main outline-emerald-700 mt-3 flex items-center justify-center rounded-md text-xl"
               >
-                <option value="">Select a Category</option>
+                <option value="">
+                  <FormattedMessage id="categroy_choose" />
+                </option>
                 {categories.map((category) => (
                   <option key={category} value={category}>
                     {category}

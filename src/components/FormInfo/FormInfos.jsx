@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import cloud from "../../Assets/images/idi.png";
 import idimg from "../../Assets/images/IDimg.png";
+import { FormattedMessage } from "react-intl";
 
 const initialValues = {
   creditCard: "",
@@ -96,9 +97,7 @@ function FormInfos() {
     <div className="w-full mt-4">
       <div className="w-full container mx-auto px-36">
         <h2 className="text-[40px] font-semibold text-green-main max-w-[727px]">
-          Iltimos Xaridni amalga oshirish uchun shaxsiy ma’lumotlaringizni
-          kiriting, Kiritilgan ma’lumotlar uchinchi shaxslarga berilmasligi
-          kafotlatlanadi!
+          <FormattedMessage id="please" />
         </h2>
 
         <form
@@ -111,7 +110,7 @@ function FormInfos() {
           {/* ============================== Full name input field */}
 
           <p className="text-gray-400 text-lg">
-            SHAXSIY MA’LUMOTLARNGIZNI SHU YERGA KIRITING
+            <FormattedMessage id="personal_info" />
           </p>
           <div className="flex w-full items-center justify-between gap-6 mt-2">
             <div className="relative w-full">
@@ -135,7 +134,7 @@ function FormInfos() {
                     : "text-green-main peer-focus:text-blue-600"
                 } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
               >
-                Ismingiz
+                <FormattedMessage id="name" />
               </label>
 
               {formik.touched.firstname && formik.errors.firstname ? (
@@ -166,7 +165,7 @@ function FormInfos() {
                     : "text-green-main peer-focus:text-blue-600"
                 } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
               >
-                Familya
+                <FormattedMessage id="surname" />
               </label>
 
               {formik.touched.lastname && formik.errors.lastname ? (
@@ -198,7 +197,7 @@ function FormInfos() {
                     : "text-green-main peer-focus:text-blue-600"
                 } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
               >
-                Sharif
+                <FormattedMessage id="familyname" />
               </label>
 
               {formik.touched.fathername && formik.errors.fathername ? (
@@ -229,7 +228,7 @@ function FormInfos() {
                     : "text-green-main peer-focus:text-blue-600"
                 } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
               >
-                Telefon raqam
+                <FormattedMessage id="number" />
               </label>
 
               {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
@@ -243,7 +242,7 @@ function FormInfos() {
           {/* ============================== Credit Card input field */}
 
           <h4 className="text-gray-400 text-lg mt-12">
-            KARTA MA’LUMOTLARINGIZNI SHU YERGA KIRITING
+            <FormattedMessage id="card_info" />
           </h4>
           <div className="flex max-w-[575px] justify-between gap-4">
             <div className="relative w-full mt-2">
@@ -297,12 +296,12 @@ function FormInfos() {
 
           {/* ============================== Password input field */}
           <h4 className="text-gray-400 text-lg mt-12">
-            PASSPORT MA’LUMOTLARINGIZNI KIRITING
+            <FormattedMessage id="ID" />
           </h4>
           <div className="flex justify-between items-center mt-4">
             <div>
               <p className="text-green-main font-semibold text-xl">
-                Загрузите обе стороны паспорта
+                <FormattedMessage id="ID_front" />
               </p>
               <p className="text-green-main mt-7">PDF, JPG</p>
 
@@ -353,7 +352,7 @@ function FormInfos() {
 
             <div>
               <p className="text-green-main font-semibold text-xl">
-                Passport bilan tushgan rasmingiz
+                <FormattedMessage id="ID_back" />
               </p>
               <p className="text-green-main mt-7">PDF, JPG</p>
 
@@ -424,7 +423,7 @@ function FormInfos() {
               target="_blank"
               className="text-3xl text-green-main underline"
             >
-              Soglasovaniyani qabul qilaman
+              <FormattedMessage id="confirm" />
             </a>
           </div>
 
@@ -432,7 +431,7 @@ function FormInfos() {
             type="submit"
             className=" border-2 border-green-main bg-transparent text-green-main px-2 py-4 font-semibold text-xl rounded-lg mt-8 hover:text-white hover:bg-green-main transition-all ease-in-out duration-300"
           >
-            Ma'lumotlarni yuborish
+            <FormattedMessage id="send" />
           </button>
         </form>
         <Toaster position="top-center" reverseOrder={false} />
