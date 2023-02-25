@@ -251,7 +251,7 @@ function FormInfos() {
                 type="text"
                 id="floating_outlined"
                 name="creditCard"
-                className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                className={`block px-2.5 py-3.5 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
                   formik.touched.creditCard && formik.errors.creditCard
                     ? " border-red-600 focus:border-red-600 placeholder-red-600 "
                     : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
@@ -275,7 +275,7 @@ function FormInfos() {
                 type="text"
                 id="floating_outlined"
                 name="expireDate"
-                className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                className={`block px-2.5 px-2.5 py-3.5 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
                   formik.touched.expireDate && formik.errors.expireDate
                     ? " border-red-600 focus:border-red-600 placeholder-red-600 "
                     : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
