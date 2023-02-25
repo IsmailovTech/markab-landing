@@ -41,14 +41,13 @@ function Footers() {
 
             <div className="w-[417px] h-[257px] mt-6 ">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2996.6744129819795!2d69.30125491505623!3d41.31594607927087!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38aef54e45cf6af3%3A0x7fe67c06541315f2!2zSW5ub21heCBUZWNobm9sb2d5IHwg0JjQvdGE0L7QutC40L7RgdC60Lgg0LIg0KLQsNGI0LrQtdC90YLQtQ!5e0!3m2!1sen!2s!4v1677237918252!5m2!1sen!2s"
+                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d95872.49292629752!2d69.2256768!3d41.330278400000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2s!4v1677244436711!5m2!1sen!2s"
                 width="417"
                 height="257"
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
                 style={{ border: 0, borderRadius: 40 }}
-                className="shadow-xl"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>
           </div>
