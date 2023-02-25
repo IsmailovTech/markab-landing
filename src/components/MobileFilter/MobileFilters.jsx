@@ -142,24 +142,25 @@ function MobileFilters({ lang, setLang }) {
 
   return (
     <div>
-      <div className="bg-gray-line w-full py-10"></div>
-      <div className="w-full container mx-auto px-36">
+      <div className="bg-gray-line w-full py-4 sm:py-7 md:py-10"></div>
+      <div className="w-full container mx-auto px-2 sm:px-8 md:px-10 lg:px-24 xl:px-36">
         <div className=" flex flex-col max-w-[727px]">
-          <h1 className="text-[40px] font-semibold text-green-main">
+          <h1 className="text-[24px] sm:text-[30px] md:text-[40px] font-semibold text-green-main">
             <FormattedMessage id="title" />
           </h1>
-          <p className="text-2xl mt-4">
+          <p className="text-base sm:text-xl md:text-2xl mt-4">
             <FormattedMessage id="main_p" />
           </p>
         </div>
 
-        <div className="border-y border-black mt-16 flex ">
-          <div className=" border-r border-black w-[400px]  pr-4 min-h-[700px]">
-            <button className="text-white bg-gradient-to-br mt-2 from-green-main to-emerald-400 hover:bg-gradient-to-bl   text-[40px]  w-[361px] text-center flex items-center justify-start px-6 gap-14 rounded-lg ">
+        <div className="border-y border-black mt-16 flex flex-col md:flex-row">
+          {/* ============================ Models */}
+          <div className=" md:border-r md:border-black md:w-[400px]  md:pr-4 md:min-h-[700px]">
+            <button className="text-white bg-gradient-to-br mt-2 from-green-main to-emerald-400 hover:bg-gradient-to-bl text-[29px] sm:text-[35px]  md:text-[40px] w-[270px] sm:w-[300px]  md:w-[361px] text-center flex items-center justify-start px-6 gap-8 sm:gap-10 md:gap-14 rounded-lg ">
               <img src={filter} alt="filter icon" />
               <FormattedMessage id="models" />
             </button>
-            <div className="flex flex-col max-w-[280px] mt-4 gap-2">
+            <div className="flex flex-col max-w-[189px] md:max-w-[280px] mt-3 md:mt-4 gap-2">
               {models.map((model) => (
                 <button
                   key={model.name}
@@ -168,7 +169,7 @@ function MobileFilters({ lang, setLang }) {
                     selectedModel === model
                       ? "border-emerald-700 flex items-center pl-5 gap-2 text-emerald-700 bg-emerald-50"
                       : "border-green-main pl-10 text-green-main"
-                  }  hover:border-emerald-700 py-2 rounded-lg text-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all text-left pr-2`}
+                  }  hover:border-emerald-700 py-2 rounded-lg text-base sm:text-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all text-left pr-2`}
                 >
                   {selectedModel === model ? (
                     <img src={correct} alt="icon" />
@@ -181,54 +182,57 @@ function MobileFilters({ lang, setLang }) {
             </div>
             {filteredPhones.map((phone) => (
               <>
-                <ul key={phone.id} className="flex flex-col  mt-8">
-                  <li className="text-black font-semibold text-2xl">
+                <ul
+                  key={phone.id}
+                  className="flex flex-col mt-2 md:mt-8 max-w-[239px] md:max-w-none "
+                >
+                  <li className="text-black font-semibold text-base md:text-2xl">
                     {phone.name}
                   </li>
-                  <li className="text-black  text-xl">
-                    <span className="font-semibold  text-xl">
+                  <li className="text-black  text-sm md:text-xl">
+                    <span className="font-semibold  text-sm md:text-xl">
                       {" "}
                       3oylik to'lov:
                     </span>
                     {phone.three}
                   </li>
-                  <li className="text-black  text-xl">
-                    <span className="font-semibold  text-xl">
+                  <li className="text-black  text-sm md:text-xl">
+                    <span className="font-semibold  text-sm md:text-xl">
                       {" "}
                       4oylik to'lov:
                     </span>
                     {phone.four}
                   </li>
-                  <li className="text-black  text-xl">
-                    <span className="font-semibold  text-xl">
+                  <li className="text-black  text-sm md:text-xl">
+                    <span className="font-semibold  text-sm md:text-xl">
                       {" "}
                       6oylik to'lov:
                     </span>
                     {phone.six}
                   </li>
-                  <li className="text-black  text-xl">
-                    <span className="font-semibold  text-xl">
+                  <li className="text-black  text-sm md:text-xl">
+                    <span className="font-semibold  text-sm md:text-xl">
                       {" "}
                       8oylik to'lov:
                     </span>
                     {phone.eight}
                   </li>
-                  <li className="text-black  text-xl">
-                    <span className="font-semibold  text-xl">
+                  <li className="text-black  text-sm md:text-xl">
+                    <span className="font-semibold  text-sm md:text-xl">
                       {" "}
                       12oylik to'lov:
                     </span>
                     {phone.twelve}
                   </li>
-                  <li className="text-black  text-xl">
-                    <span className="font-semibold  text-xl">
+                  <li className="text-black  text-sm md:text-xl">
+                    <span className="font-semibold  text-sm md:text-xl">
                       {" "}
                       Boshlang'ich to'lov:
                     </span>
                     {phone.startPay}
                   </li>
                 </ul>
-                <p className="text-xl mt-3">
+                <p className="text-sm md:text-xl mt-1 md:mt-3 max-w-[239px] md:max-w-none">
                   Agar bundan ko'proq to'lov qilsangiz oylik to'lovlarga ta'sir
                   qiladi!
                 </p>
@@ -236,13 +240,13 @@ function MobileFilters({ lang, setLang }) {
             ))}
           </div>
 
-          <div className=" w-full flex flex-col items-center">
-            <h2 className="text-4xl font-semibold mt-2 text-center text-green-main">
+          <div className=" w-full flex flex-col md:items-center">
+            <h2 className="text-2xl md:text-4xl font-semibold mt-2 md:text-center text-green-main">
               <FormattedMessage id="model_choose" />
             </h2>
             {/* ==================== Selecting options */}
-            <div className="categories w-[285px] mt-8 ">
-              <h2 className=" h-[47px] bg-green-main text-white flex items-center justify-center rounded-md text-xl ">
+            <div className="categories max-w-[189px] sm:max-w-[285px] mt-2 md:mt-8 ">
+              <h2 className=" h-[31px] md:h-[47px] bg-green-main text-white flex items-center justify-center rounded-md text-base sm:text-xl ">
                 {selectedModel ? (
                   selectedModel.name
                 ) : (
@@ -253,7 +257,7 @@ function MobileFilters({ lang, setLang }) {
                 value={selectedCategory ? selectedCategory : ""}
                 onChange={(e) => handleCategorySelect(e.target.value)}
                 disabled={!selectedModel}
-                className=" w-full h-[47px] bg-transparent  text-green-main border-2 border-green-main outline-emerald-700 mt-3 flex items-center justify-center rounded-md text-xl"
+                className=" w-full h-[31px] md:h-[47px] bg-transparent  text-green-main border-2 border-green-main outline-emerald-700 mt-3 flex items-center justify-center rounded-md text-base sm:text-xl "
               >
                 <option value="">
                   <FormattedMessage id="categroy_choose" />
@@ -273,50 +277,55 @@ function MobileFilters({ lang, setLang }) {
                 {filteredPhones.length === 0 ? (
                   <p>No phones available with the selected filters.</p>
                 ) : (
-                  <div className="phone-list">
+                  <div>
                     {filteredPhones.map((phone) => (
-                      <div key={phone.id} className="flex gap-10 mt-8">
-                        <div className=" relative  flex flex-col items-end pb-20">
-                          <img
-                            src={samsung}
-                            alt="photo"
-                            className="flex w-[428px] h-[567px]"
-                          />
-
-                          <div className=" absolute bottom-4 left-24 flex items-center ">
-                            <div className="flex items-center gap-2">
-                              <div className="bg-green-500 w-[30px] h-[30px] rounded-full"></div>
-                              <div className="bg-red-500 w-[30px] h-[30px] rounded-full"></div>
-                              <div className="bg-gray-500 w-[30px] h-[30px] rounded-full"></div>
-                              <div className="bg-slate-300 w-[30px] h-[30px] rounded-full"></div>
+                      <>
+                        <div
+                          key={phone.id}
+                          className="flex gap-2 sm:gap-5 md:gap-10 mt-4 md:mt-8"
+                        >
+                          <div className="flex gap-2 md:gap-4">
+                            <div className="max-w-[428px] max-h-[567px]">
+                              <img
+                                src={samsung}
+                                alt="photo"
+                                className="flex   sm:w-[428px] sm:h-[567px]"
+                              />
                             </div>
 
-                            <select
-                              value={selectedColor ? selectedColor : ""}
-                              onChange={(e) =>
-                                handleColorSelect(e.target.value)
-                              }
-                              disabled={!selectedModel}
-                              className=" w-[350px] h-[47px] bg-green-main border-green-main text-white ml-8 flex items-center  justify-center rounded-md text-xl"
-                            >
-                              <option value="">Select a Color</option>
-                              {phone.colors.map((colors) => (
-                                <option key={colors} value={colors}>
-                                  {colors}
-                                </option>
-                              ))}
-                            </select>
+                            <div>
+                              <h3 className=" text-base sm:text-lg md:text-4xl font-semibold text-green-main">
+                                {phone.name}
+                              </h3>
+                              <p className=" text-sm sm:text-lg md:text-xl text-green-main  sm:mt-5 md:mt-8 max-w-[300px] ">
+                                {phone.description}
+                              </p>
+                            </div>
                           </div>
                         </div>
-                        <div>
-                          <h3 className="text-4xl font-semibold text-green-main">
-                            {phone.name}
-                          </h3>
-                          <p className="text-xl text-green-main mt-8 max-w-[300px] ">
-                            {phone.description}
-                          </p>
+                        <div className=" flex items-center gap-2 sm:gap-0 sm:ml-10 md:ml-32 mt-8 mb-14 ">
+                          <div className="flex items-center gap-1 sm:gap-2 ">
+                            <div className="bg-green-500 w-[23px] md:w-[30px] h-[23px] md:h-[30px] rounded-full"></div>
+                            <div className="bg-red-500 w-[23px] md:w-[30px] h-[23px] md:h-[30px] rounded-full"></div>
+                            <div className="bg-gray-500 w-[23px] md:w-[30px] h-[23px] md:h-[30px] rounded-full"></div>
+                            <div className="bg-slate-300 w-[23px] md:w-[30px] h-[23px] md:h-[30px] rounded-full"></div>
+                          </div>
+
+                          <select
+                            value={selectedColor ? selectedColor : ""}
+                            onChange={(e) => handleColorSelect(e.target.value)}
+                            disabled={!selectedModel}
+                            className=" w-[206px] sm:w-[350px] h-[27px] sm:max-h-[47px] bg-green-main border-green-main text-white md:ml-8 flex items-center  justify-center rounded-md text-xs sm:text-base md:text-xl"
+                          >
+                            <option value="">Select a Color</option>
+                            {phone.colors.map((colors) => (
+                              <option key={colors} value={colors}>
+                                {colors}
+                              </option>
+                            ))}
+                          </select>
                         </div>
-                      </div>
+                      </>
                     ))}
                   </div>
                 )}

@@ -95,8 +95,8 @@ function FormInfos() {
 
   return (
     <div className="w-full mt-4">
-      <div className="w-full container mx-auto px-36">
-        <h2 className="text-[40px] font-semibold text-green-main max-w-[727px]">
+      <div className="w-full container mx-auto  px-2 sm:px-8 md:px-10 lg:px-24 xl:px-36">
+        <h2 className=" text-[24px] sm:text-[30px] md:text-[40px] font-semibold text-green-main max-w-[727px]">
           <FormattedMessage id="please" />
         </h2>
 
@@ -105,14 +105,14 @@ function FormInfos() {
             formik.handleSubmit(e);
             formik.values = initialValues;
           }}
-          className="max-w-[1000px] mt-20 "
+          className="max-w-[1000px] mt-4 sm:mt-20 "
         >
           {/* ============================== Full name input field */}
 
-          <p className="text-gray-400 text-lg">
+          <p className="text-gray-400 text-sm md:text-lg">
             <FormattedMessage id="personal_info" />
           </p>
-          <div className="flex w-full items-center justify-between gap-6 mt-2">
+          <div className="flex flex-col  sm:flex-row  w-full items-center justify-between gap-4 sm:gap-6 mt-2">
             <div className="relative w-full">
               <input
                 type="firstname"
@@ -175,7 +175,7 @@ function FormInfos() {
               ) : null}
             </div>
           </div>
-          <div className="flex w-full items-center justify-between gap-6 mt-5">
+          <div className="flex flex-col  sm:flex-row w-full items-center justify-between gap-4 sm:gap-6 mt-4 sm:mt-5">
             <div className="relative w-full">
               <input
                 type="text"
@@ -241,10 +241,10 @@ function FormInfos() {
 
           {/* ============================== Credit Card input field */}
 
-          <h4 className="text-gray-400 text-lg mt-12">
+          <h4 className="text-gray-400 text-sm md:text-lg mt-5 sm:mt-8 md:mt-12">
             <FormattedMessage id="card_info" />
           </h4>
-          <div className="flex max-w-[575px] justify-between gap-4">
+          <div className="flex flex-col  sm:flex-row max-w-[575px] justify-between gap-2 sm:gap-4">
             <div className="relative w-full mt-2">
               <input
                 type="text"
@@ -295,15 +295,15 @@ function FormInfos() {
           </div>
 
           {/* ============================== Password input field */}
-          <h4 className="text-gray-400 text-lg mt-12">
+          <h4 className="text-gray-400 text-sm md:text-lg mt-5 sm:mt-8 md:mt-12">
             <FormattedMessage id="ID" />
           </h4>
-          <div className="flex justify-between items-center mt-4">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center mt-2 sm:mt-4">
             <div>
-              <p className="text-green-main font-semibold text-xl">
+              <p className="text-green-main font-semibold text-lg md:text-xl">
                 <FormattedMessage id="ID_front" />
               </p>
-              <p className="text-green-main mt-7">PDF, JPG</p>
+              <p className="text-green-main md:mt-7">PDF, JPG</p>
 
               <div className="relative mt-2 ">
                 <input
@@ -329,20 +329,20 @@ function FormInfos() {
                       <img
                         src={URL.createObjectURL(formik.values.file)}
                         alt="file-preview"
-                        className="h-48 w-80 object-contain"
+                        className="h-32 w-44 sm:h-48 sm:w-80 object-contain"
                       />
                     )}
                     {formik.values.file.type.includes("pdf") && (
                       <iframe
                         src={URL.createObjectURL(formik.values.file)}
                         title="file-preview"
-                        className="h-48 w-80 object-contain"
+                        className="h-32 w-44 sm:h-48 sm:w-80 object-contain"
                       ></iframe>
                     )}
                   </div>
                 ) : (
                   <img
-                    className="h-48 w-80 border-2 rounded-xl mt-8"
+                    className="h-28 w-44 sm:h-48 sm:w-80 border-2 rounded-xl mt-4 sm:mt-8"
                     src={cloud}
                     alt="cloud_svg "
                   />
@@ -351,10 +351,10 @@ function FormInfos() {
             </div>
 
             <div>
-              <p className="text-green-main font-semibold text-xl">
+              <p className="text-green-main font-semibold text-sm md:text-lg mt-7 sm:mt-0">
                 <FormattedMessage id="ID_back" />
               </p>
-              <p className="text-green-main mt-7">PDF, JPG</p>
+              <p className="text-green-main md:mt-7">PDF, JPG</p>
 
               <div className="relative mt-2 ">
                 <input
@@ -381,19 +381,23 @@ function FormInfos() {
                       <img
                         src={URL.createObjectURL(formik.values.file2)}
                         alt="file-preview"
-                        className="h-48 w-80 object-contain"
+                        className="h-28 w-44 sm:h-48 sm:w-80  object-contain"
                       />
                     )}
                     {formik.values.file2.type.includes("pdf") && (
                       <iframe
                         src={URL.createObjectURL(formik.values.file2)}
                         title="file-preview"
-                        className="h-48 w-80 object-contain"
+                        className="h-28 w-44 sm:h-48 sm:w-80  object-contain"
                       ></iframe>
                     )}
                   </div>
                 ) : (
-                  <img src={idimg} alt="cloud_svg" className="h-48 mt-8 " />
+                  <img
+                    src={idimg}
+                    alt="cloud_svg"
+                    className="h-28 sm:h-48   mt-8 "
+                  />
                 )}
               </div>
             </div>
@@ -401,13 +405,13 @@ function FormInfos() {
 
           {/* ========================= AGREETOTERMS */}
 
-          <div className="flex items-center gap-4 justify-center ml-28 font-semibold mt-16">
-            <div>
+          <div className="flex items-center gap-2 sm:gap-4 justify-center ml-8 sm:ml-28 font-semibold mt-8 sm:mt-14 md:mt-16">
+            <div className="flex items-center">
               <input
                 type="checkbox"
                 name="agreeToTerms"
                 id="agreeToTerms"
-                className="h-9 w-9 rounded  text-primary focus:outline-none border border-primary focus:border-primary transition duration-300 ease-in-out"
+                className=" h-5  w-5 sm:h-9 sm:w-9 rounded  text-primary focus:outline-none border border-primary focus:border-primary transition duration-300 ease-in-out"
                 checked={formik.values.agreeToTerms}
                 onChange={formik.handleChange}
               />
@@ -421,7 +425,7 @@ function FormInfos() {
             <a
               href="https://docs.google.com/document/d/1S7CNykliwhXK-qlHmtHsQOe8Xtxzcqam/edit?usp=sharing&ouid=109094856157650499566&rtpof=true&sd=true"
               target="_blank"
-              className="text-3xl text-green-main underline"
+              className=" text-sm sm:text-2xl md:text-3xl text-green-main underline"
             >
               <FormattedMessage id="confirm" />
             </a>
@@ -429,7 +433,7 @@ function FormInfos() {
 
           <button
             type="submit"
-            className=" border-2 border-green-main bg-transparent text-green-main px-2 py-4 font-semibold text-xl rounded-lg mt-8 hover:text-white hover:bg-green-main transition-all ease-in-out duration-300"
+            className=" border-2 border-green-main bg-transparent text-green-main px-2 py-3 sm:py-4 font-semibold text-sm sm:text-xl rounded-lg mt-8 hover:text-white hover:bg-green-main transition-all ease-in-out duration-300 mb-8 sm:mb-0"
           >
             <FormattedMessage id="send" />
           </button>

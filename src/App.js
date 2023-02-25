@@ -16,14 +16,10 @@ function App() {
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div>
-        <Navbar
-          locale={locale}
-          setLocale={setLocale}
-          handleLocaleChange={handleLocaleChange}
-        />
+        <Navbar handleLocaleChange={handleLocaleChange} />
         <MobileFilters />
         <FormInfos />
-        <Footers />
+        {/* <Footers /> */}
       </div>
     </IntlProvider>
   )
