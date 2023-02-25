@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import filter from "../../Assets/images/Filtericon.svg";
 import samsung from "../../Assets/images/samsung.png";
+import correct from "../../Assets/images/correct.svg";
 
 // Fake JSON data
 const phoneModelsData = [
@@ -23,6 +24,12 @@ const phoneData = [
     description:
       "Смартфон Samsung Galaxy S22 Ultra оснащен дисплеем Dynamic AMOLED 2X с диагональю 6,8 дюйма и разрешением 1440×3088, прикрытым стеклом с загнутыми краями Corning Gorilla Victus+. Плотность точек — около 500 ppi. Рамка вокруг экрана максимально узкая. Для экрана поддерживается HDR10+ и частота обновления 120 Гц.",
     colors: ["red", "white", "blue", "black"],
+    three: " 3,702,930 so'm dan",
+    four: "2,852,939 so'm dan",
+    six: " 2,019,780 so'm dan",
+    eight: "1,603,200 so'm dan",
+    twelve: "1,178,205 so'm dan",
+    startPay: "4,328,100 so'm dan",
   },
   {
     id: 2,
@@ -30,6 +37,13 @@ const phoneData = [
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, reprehenderit hic est deserunt labore odit minus, atque iusto facilis quae dolore eius beatae delectus? Recusandae rem consectetur distinctio in voluptas!",
     colors: ["yellow", "green", "pink", "gray"],
+    info: "Samsung S 233 oylik to'lov: 3,702,930 so'm dan 4 oylik to'lov: 2,852,939 so'm dan 6 oylik to'lov: 2,019,780 so'm dan 8 oylik to'lov 1,603,200 so'm dan 12 oylik to'lov: 1,178,205 so'm dan Boshlang'ich to'lov: 4,328,100 so'm dan Agar bundan ko'proq to'lov qilsangiz oylik to'lovlarga ta'sir qiladi!",
+    three: " 3,702,930 so'm dan",
+    four: "2,852,939 so'm dan",
+    six: " 2,019,780 so'm dan",
+    eight: "1,603,200 so'm dan",
+    twelve: "1,178,205 so'm dan",
+    startPay: "4,328,100 so'm dan",
   },
   {
     id: 3,
@@ -37,6 +51,13 @@ const phoneData = [
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia minus ex repellendus maiores distinctio perferendis perspiciatis pariatur tenetur blanditiis? Modi nulla totam dignissimos aspernatur necessitatibus earum animi voluptatem, officia reprehenderit?",
     colors: ["orange", "purple", "brown", "teal"],
+    info: "Samsung S 233 oylik to'lov: 3,702,930 so'm dan 4 oylik to'lov: 2,852,939 so'm dan 6 oylik to'lov: 2,019,780 so'm dan 8 oylik to'lov 1,603,200 so'm dan 12 oylik to'lov: 1,178,205 so'm dan Boshlang'ich to'lov: 4,328,100 so'm dan Agar bundan ko'proq to'lov qilsangiz oylik to'lovlarga ta'sir qiladi!",
+    three: " 3,702,930 so'm dan",
+    four: "2,852,939 so'm dan",
+    six: " 2,019,780 so'm dan",
+    eight: "1,603,200 so'm dan",
+    twelve: "1,178,205 so'm dan",
+    startPay: "4,328,100 so'm dan",
   },
   {
     id: 4,
@@ -44,6 +65,13 @@ const phoneData = [
     description:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis, consequatur voluptatibus magni odit maiores repudiandae quibusdam veniam nemo voluptate quam porro obcaecati nostrum aliquam distinctio consectetur autem quia dignissimos. Repudiandae!",
     colors: ["red", "green", "blue", "black"],
+    info: "Samsung S 233 oylik to'lov: 3,702,930 so'm dan 4 oylik to'lov: 2,852,939 so'm dan 6 oylik to'lov: 2,019,780 so'm dan 8 oylik to'lov 1,603,200 so'm dan 12 oylik to'lov: 1,178,205 so'm dan Boshlang'ich to'lov: 4,328,100 so'm dan Agar bundan ko'proq to'lov qilsangiz oylik to'lovlarga ta'sir qiladi!",
+    three: " 3,702,930 so'm dan",
+    four: "2,852,939 so'm dan",
+    six: " 2,019,780 so'm dan",
+    eight: "1,603,200 so'm dan",
+    twelve: "1,178,205 so'm dan",
+    startPay: "4,328,100 so'm dan",
   },
   {
     id: 5,
@@ -51,6 +79,13 @@ const phoneData = [
     description:
       "Смартфон Samsung Galaxy S22 Ultra оснащен дисплеем Dynamic AMOLED 2X с диагональю 6,8 дюйма и разрешением 1440×3088, прикрытым стеклом с загнутыми краями Corning Gorilla Victus+. Плотность точек — около 500 ppi. Рамка вокруг экрана максимально узкая. Для экрана поддерживается HDR10+ и частота обновления 120 Гц.",
     colors: ["yellow", "purple", "brown", "teal"],
+    info: "Samsung S 233 oylik to'lov: 3,702,930 so'm dan 4 oylik to'lov: 2,852,939 so'm dan 6 oylik to'lov: 2,019,780 so'm dan 8 oylik to'lov 1,603,200 so'm dan 12 oylik to'lov: 1,178,205 so'm dan Boshlang'ich to'lov: 4,328,100 so'm dan Agar bundan ko'proq to'lov qilsangiz oylik to'lovlarga ta'sir qiladi!",
+    three: " 3,702,930 so'm dan",
+    four: "2,852,939 so'm dan",
+    six: " 2,019,780 so'm dan",
+    eight: "1,603,200 so'm dan",
+    twelve: "1,178,205 so'm dan",
+    startPay: "4,328,100 so'm dan",
   },
   {
     id: 6,
@@ -58,6 +93,13 @@ const phoneData = [
     description:
       "Смартфон Samsung Galaxy S22 Ultra оснащен дисплеем Dynamic AMOLED 2X с диагональю 6,8 дюйма и разрешением 1440×3088, прикрытым стеклом с загнутыми краями Corning Gorilla Victus+. Плотность точек — около 500 ppi. Рамка вокруг экрана максимально узкая. Для экрана поддерживается HDR10+ и частота обновления 120 Гц.",
     colors: ["orange", "white", "pink", "gray"],
+    info: "Samsung S 233 oylik to'lov: 3,702,930 so'm dan 4 oylik to'lov: 2,852,939 so'm dan 6 oylik to'lov: 2,019,780 so'm dan 8 oylik to'lov 1,603,200 so'm dan 12 oylik to'lov: 1,178,205 so'm dan Boshlang'ich to'lov: 4,328,100 so'm dan Agar bundan ko'proq to'lov qilsangiz oylik to'lovlarga ta'sir qiladi!",
+    three: " 3,702,930 so'm dan",
+    four: "2,852,939 so'm dan",
+    six: " 2,019,780 so'm dan",
+    eight: "1,603,200 so'm dan",
+    twelve: "1,178,205 so'm dan",
+    startPay: "4,328,100 so'm dan",
   },
 ];
 
@@ -123,12 +165,76 @@ function MobileFilters() {
                 <button
                   key={model.name}
                   onClick={() => handleModelClick(model)}
-                  className="border-2 border-green-main hover:border-emerald-700 py-2 rounded-lg text-xl text-green-main hover:text-emerald-700 transition-all text-left pl-10 pr-2"
+                  className={`border-2  ${
+                    selectedModel === model
+                      ? "border-emerald-700 flex items-center pl-5 gap-2 text-emerald-700 bg-emerald-50"
+                      : "border-green-main pl-10 text-green-main"
+                  }  hover:border-emerald-700 py-2 rounded-lg text-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all text-left pr-2`}
                 >
+                  {selectedModel === model ? (
+                    <img src={correct} alt="icon" />
+                  ) : (
+                    ""
+                  )}
                   {model.name}
                 </button>
               ))}
             </div>
+            {filteredPhones.map((phone) => (
+              <>
+                <ul key={phone.id} className="flex flex-col  mt-8">
+                  <li className="text-black font-semibold text-2xl">
+                    {phone.name}
+                  </li>
+                  <li className="text-black  text-xl">
+                    <span className="font-semibold  text-xl">
+                      {" "}
+                      3oylik to'lov:
+                    </span>
+                    {phone.three}
+                  </li>
+                  <li className="text-black  text-xl">
+                    <span className="font-semibold  text-xl">
+                      {" "}
+                      4oylik to'lov:
+                    </span>
+                    {phone.four}
+                  </li>
+                  <li className="text-black  text-xl">
+                    <span className="font-semibold  text-xl">
+                      {" "}
+                      6oylik to'lov:
+                    </span>
+                    {phone.six}
+                  </li>
+                  <li className="text-black  text-xl">
+                    <span className="font-semibold  text-xl">
+                      {" "}
+                      8oylik to'lov:
+                    </span>
+                    {phone.eight}
+                  </li>
+                  <li className="text-black  text-xl">
+                    <span className="font-semibold  text-xl">
+                      {" "}
+                      12oylik to'lov:
+                    </span>
+                    {phone.twelve}
+                  </li>
+                  <li className="text-black  text-xl">
+                    <span className="font-semibold  text-xl">
+                      {" "}
+                      Boshlang'ich to'lov:
+                    </span>
+                    {phone.startPay}
+                  </li>
+                </ul>
+                <p className="text-xl mt-3">
+                  Agar bundan ko'proq to'lov qilsangiz oylik to'lovlarga ta'sir
+                  qiladi!
+                </p>
+              </>
+            ))}
           </div>
 
           <div className=" w-full flex flex-col items-center">
