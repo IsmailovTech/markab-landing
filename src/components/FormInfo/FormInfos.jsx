@@ -417,7 +417,7 @@ function FormInfos() {
               />
 
               {formik.touched.file && formik.errors.file && (
-                <div className="absolute text-red-600 text-sm pt-0.5">
+                <div className="absolute text-red-600 text-sm pt-10 sm:pt-14">
                   {formik.errors.agreeToTerms}
                 </div>
               )}
