@@ -46,7 +46,7 @@ function Footers() {
 
   return (
     <>
-      <div className="w-full bg-green-main max-h-[380px]  pb-8 md:pb-0 mt-24">
+      <div className="w-full bg-green-main max-h-[380px]  pb-8 md:pb-0 sm:mt-24">
         <div className="container mx-auto px-2 sm:px-8 md:px-10 lg:px-24 xl:px-36 pt-5 flex flex-col md:flex-row">
           <div>
             <img
