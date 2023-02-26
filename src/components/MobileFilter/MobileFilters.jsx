@@ -257,7 +257,7 @@ function MobileFilters({ lang, setLang }) {
                 value={selectedCategory ? selectedCategory : ""}
                 onChange={(e) => handleCategorySelect(e.target.value)}
                 disabled={!selectedModel}
-                className=" w-full h-[31px] md:h-[47px] bg-transparent  text-green-main border-2 border-green-main outline-emerald-700 mt-3 flex items-center justify-center rounded-md text-base sm:text-xl "
+                className=" w-full h-[31px] md:h-[47px] mb-4 md:mb-0 bg-transparent  text-green-main border-2 border-green-main outline-emerald-700 mt-3 flex items-center justify-center rounded-md text-base sm:text-xl "
               >
                 <option value="">
                   <FormattedMessage id="categroy_choose" />
@@ -289,7 +289,7 @@ function MobileFilters({ lang, setLang }) {
                               <img
                                 src={samsung}
                                 alt="photo"
-                                className="flex   sm:w-[428px] sm:h-[567px]"
+                                className="flex   md:w-[428px] md:h-[567px]"
                               />
                             </div>
 
