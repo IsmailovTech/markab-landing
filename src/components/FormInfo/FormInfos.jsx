@@ -7,30 +7,69 @@ import idimg from "../../Assets/images/IDimg.png";
 import { FormattedMessage } from "react-intl";
 
 const initialValues = {
-  creditCard: "",
+  card: "",
   expireDate: "",
-  firstname: "",
+  name: "",
   lastname: "",
   fathername: "",
-  phoneNumber: "",
-  file: null,
-  file2: null,
+  number: "",
+  passport: null,
+  selfie: null,
   agreeToTerms: false, // added new field for checkbox
 };
 
 function FormInfos() {
   const onSubmit = (values, { resetForm }) => {
-    console.log(values);
+    const username = "ibrokhim";
+    const password = "Bu8$G9VLY7^5";
+    const url = "https://malika.itlink.uz/api/v1/order/create";
+    const data = {
+      name: values.name,
+      number: values.number,
+      passport: "values.passport",
+      selfie: "values.selfie",
+      card: values.card,
+      time: "22211",
+      model: "values.model",
+      phone: "values.phone",
+      color: "values.color",
+      type: "values.type",
+    };
 
-    toast.success("Ma'lumotlaringiz muvaffaqiyatli jo'natildi!");
+    const auth = btoa(`${username}:${password}`);
+    const options = {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Basic ${auth}`,
+      },
+      body: JSON.stringify(data),
+    };
 
-    resetForm({ values: "" });
-    document.getElementById("file").value = "";
-    document.getElementById("file2").value = "";
+    fetch(url, options)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error in request");
+        }
+      })
+      .then((json) => {
+        console.log(json);
+        toast.success("Ma'lumotlaringiz muvaffaqiyatli jo'natildi!");
+        resetForm({ values: "" });
+        document.getElementById("file").value = "";
+        document.getElementById("selfie").value = "";
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Ma'lumotlarni yuborishda xatolik yuz berdi.");
+      });
   };
 
   const validationSchema = Yup.object({
-    firstname: Yup.string().required(
+    name: Yup.string().required(
       "Foydalanuvchi nomi talab qilinadi, kamida 3 ta belgi"
     ),
     lastname: Yup.string().required(
@@ -39,8 +78,8 @@ function FormInfos() {
     fathername: Yup.string().required(
       "Foydalanuvchi sharifi talab qilinadi, kamida 3 ta belgi"
     ),
-    creditCard: Yup.mixed().required("Unvalid"),
-    phoneNumber: Yup.number("Faqat raqam bo'lishi kerak").required("Unvalid"),
+    card: Yup.mixed().required("Unvalid"),
+    number: Yup.number("Faqat raqam bo'lishi kerak").required("Unvalid"),
     expireDate: Yup.mixed().required("Unvalid"),
     agreeToTerms: Yup.bool().oneOf([true], "Tasdiqlang"), // added validation for checkbox
     file: Yup.mixed()
@@ -57,7 +96,7 @@ function FormInfos() {
           value &&
           ["image/jpeg", "image/png", "application/pdf"].includes(value.type)
       ),
-    file2: Yup.mixed()
+    selfie: Yup.mixed()
       .required("Faylni yuklash kerak")
       .test(
         "fileSize",
@@ -79,11 +118,11 @@ function FormInfos() {
     validationSchema,
   });
 
-  const handleCreditCardChange = (event) => {
+  const handlecardChange = (event) => {
     const { value } = event.target;
     const cardNumber = value.replace(/[^\d]/g, "").substr(0, 16);
     const formattedCardNumber = cardNumber.replace(/(\d{4})(?=\d)/g, "$1-");
-    formik.setFieldValue("creditCard", formattedCardNumber);
+    formik.setFieldValue("card", formattedCardNumber);
   };
 
   const handleExpireDateChange = (event) => {
@@ -115,21 +154,21 @@ function FormInfos() {
           <div className="flex flex-col  sm:flex-row  w-full items-center justify-between gap-4 sm:gap-6 mt-2">
             <div className="relative w-full">
               <input
-                type="firstname"
+                type="name"
                 id="floating_outlined"
-                name="firstname"
+                name="name"
                 className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
-                  formik.touched.firstname && formik.errors.firstname
+                  formik.touched.name && formik.errors.name
                     ? " border-red-600 focus:border-red-600 "
                     : "border-green-main focus:border-blue-600"
                 } text-black focus:outline-none focus:ring-0  peer`}
                 placeholder=" "
-                {...formik.getFieldProps("firstname")}
+                {...formik.getFieldProps("name")}
               />
               <label
                 htmlFor="floating_outlined"
                 className={`absolute text-sm ${
-                  formik.touched.firstname && formik.errors.firstname
+                  formik.touched.name && formik.errors.name
                     ? "text-red-600 peer-focus:dark:text-red-600"
                     : "text-green-main peer-focus:text-blue-600"
                 } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
@@ -137,9 +176,9 @@ function FormInfos() {
                 <FormattedMessage id="name" />
               </label>
 
-              {formik.touched.firstname && formik.errors.firstname ? (
+              {formik.touched.name && formik.errors.name ? (
                 <span className="text-red-600 text-xs absolute  left-2">
-                  {formik.errors.firstname}
+                  {formik.errors.name}
                 </span>
               ) : null}
             </div>
@@ -211,19 +250,19 @@ function FormInfos() {
               <input
                 type="text"
                 id="floating_outlined"
-                name="phoneNumber"
+                name="number"
                 className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
-                  formik.touched.phoneNumber && formik.errors.phoneNumber
+                  formik.touched.number && formik.errors.number
                     ? " border-red-600 focus:border-red-600 "
                     : "border-green-main focus:border-blue-600"
                 } text-black focus:outline-none focus:ring-0  peer`}
                 placeholder=" "
-                {...formik.getFieldProps("phoneNumber")}
+                {...formik.getFieldProps("number")}
               />
               <label
                 htmlFor="floating_outlined"
                 className={`absolute text-sm ${
-                  formik.touched.phoneNumber && formik.errors.phoneNumber
+                  formik.touched.number && formik.errors.number
                     ? "text-red-600 peer-focus:dark:text-red-600"
                     : "text-green-main peer-focus:text-blue-600"
                 } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
@@ -231,9 +270,9 @@ function FormInfos() {
                 <FormattedMessage id="number" />
               </label>
 
-              {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+              {formik.touched.number && formik.errors.number ? (
                 <span className="text-red-600 text-xs absolute  left-2">
-                  {formik.errors.phoneNumber}
+                  {formik.errors.number}
                 </span>
               ) : null}
             </div>
@@ -249,22 +288,22 @@ function FormInfos() {
               <input
                 type="text"
                 id="floating_outlined"
-                name="creditCard"
+                name="card"
                 className={`block px-2.5 py-3.5 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
-                  formik.touched.creditCard && formik.errors.creditCard
+                  formik.touched.card && formik.errors.card
                     ? " border-red-600 focus:border-red-600 placeholder-red-600 "
                     : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
                 } text-black focus:outline-none focus:ring-0  peer`}
                 placeholder="0000-0000-0000-0000"
                 maxLength="19"
                 minLength="19"
-                onChange={handleCreditCardChange}
-                value={formik.values.creditCard}
+                onChange={handlecardChange}
+                value={formik.values.card}
               />
 
-              {formik.touched.creditCard && formik.errors.creditCard ? (
+              {formik.touched.card && formik.errors.card ? (
                 <span className="text-red-600 text-xs absolute  left-2">
-                  {formik.errors.creditCard}
+                  {formik.errors.card}
                 </span>
               ) : null}
             </div>
@@ -359,34 +398,37 @@ function FormInfos() {
               <div className="relative mt-2 ">
                 <input
                   type="file"
-                  id="file2"
-                  name="file2"
+                  id="selfie"
+                  name="selfie"
                   accept=" image/jpeg, image/png, application/pdf"
                   lang="ru"
                   className="block text-sm "
                   onChange={(event) => {
-                    formik.setFieldValue("file2", event.currentTarget.files[0]);
+                    formik.setFieldValue(
+                      "selfie",
+                      event.currentTarget.files[0]
+                    );
                   }}
                 />
 
-                {formik.touched.file2 && formik.errors.file2 && (
+                {formik.touched.selfie && formik.errors.selfie && (
                   <div className="text-red-600 text-sm pt-0.5">
-                    {formik.errors.file2}
+                    {formik.errors.selfie}
                   </div>
                 )}
 
-                {formik.values.file2 ? (
+                {formik.values.selfie ? (
                   <div className="flex flex-col gap-2 mt-8">
-                    {formik.values.file2.type.includes("image") && (
+                    {formik.values.selfie.type.includes("image") && (
                       <img
-                        src={URL.createObjectURL(formik.values.file2)}
+                        src={URL.createObjectURL(formik.values.selfie)}
                         alt="file-preview"
                         className="h-28 w-44 sm:h-48 sm:w-80  object-contain"
                       />
                     )}
-                    {formik.values.file2.type.includes("pdf") && (
+                    {formik.values.selfie.type.includes("pdf") && (
                       <iframe
-                        src={URL.createObjectURL(formik.values.file2)}
+                        src={URL.createObjectURL(formik.values.selfie)}
                         title="file-preview"
                         className="h-28 w-44 sm:h-48 sm:w-80  object-contain"
                       ></iframe>
