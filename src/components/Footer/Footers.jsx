@@ -46,36 +46,43 @@ function Footers() {
 
   return (
     <>
-      <div className="w-full bg-green-main h-[380px] mt-24">
-        <div className="container mx-auto px-36 pt-5 flex">
+      <div className="w-full bg-green-main max-h-[380px]  pb-8 md:pb-0 mt-24">
+        <div className="container mx-auto px-2 sm:px-8 md:px-10 lg:px-24 xl:px-36 pt-5 flex flex-col md:flex-row">
           <div>
-            <img src={logo} alt="logo" className="w-[297px]" />
+            <img
+              src={logo}
+              alt="logo"
+              className="w-[173px]  sm:w-[200px] md:w-[297px]"
+            />
 
             {/*======================= Google map */}
 
-            <div className="w-[417px] h-[257px] mt-6 ">
+            <div className=" w-[173px] h-[106px] md:w-[417px] md:h-[257px] mt-2 md:mt-6 ">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d748.4575812462535!2d69.3207024!3d41.377771!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38aef3eca14f685b%3A0xd2dc23a047e926ed!2sMirandi%20Restaurant!5e0!3m2!1sen!2s!4v1677341517065!5m2!1sen!2s"
-                width="417"
-                height="257"
-                style={{ border: 0, borderRadius: 40 }}
+                // width="417"
+                // height="257"
+                style={{ border: 0 }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                className="w-[173px] h-[106px] md:w-[417px] md:h-[257px] rounded-2xl md:rounded-[40px] "
               ></iframe>
             </div>
           </div>
 
           {/* ===================== Footer infos */}
-          <div className="mt-20 ml-8 gap-16">
-            <ul className="flex gap-10">
+          <div className=" mt-2 sm:mt-10 md:mt-20 ml-0 md:ml-8 gap-16">
+            <ul className="flex  md:gap-10">
               {footerData.length &&
                 footerData.map((data, index) => (
                   <ul
                     key={index}
-                    className="flex flex-col gap-2 text-white text-2xl max-w-[310px] "
+                    className="flex flex-col gap-1 sm:gap-2 text-white text-xs sm:text-xl md:text-2xl max-w-[172px] sm:max-w-[310px] "
                   >
-                    <li className="text-3xl mb-2">{data.title}</li>
+                    <li className="text-lg sm:text-2xl md:text-3xl sm:mb-2">
+                      {data.title}
+                    </li>
                     <li>{data.content}</li>
                     <li>{data.number}</li>
                   </ul>
@@ -84,7 +91,7 @@ function Footers() {
 
             {/* ================= Footer Icons */}
 
-            <ul className="flex items-center  gap-8 mt-10 ml-8">
+            <ul className="flex items-center gap-4 md:gap-8 mt-5 md:mt-10 ml-16 md:ml-8">
               {socials.length &&
                 socials.map((el, index) => (
                   <li key={index}>
@@ -97,8 +104,8 @@ function Footers() {
           </div>
         </div>
       </div>
-      <div className="w-full h-14 bg-white container mx-auto px-36 flex items-center justify-center">
-        <p className="flex gap-6">
+      <div className="w-full h-9 sm:h-10 md:h-14 bg-white container mx-auto px-2 sm:px-8 md:px-10 lg:px-24 xl:px-36 flex items-center justify-center">
+        <p className="text-[9px] sm:text-base md:text-lg flex gap-1 sm:gap-4 md:gap-6">
           Copyright © Markab | Designed by{" "}
           <a
             href="https://www.instagram.com/abba.uz/"

@@ -19,7 +19,7 @@ function App() {
         <Navbar handleLocaleChange={handleLocaleChange} />
         <MobileFilters />
         <FormInfos />
-        {/* <Footers /> */}
+        <Footers />
       </div>
     </IntlProvider>
   )
