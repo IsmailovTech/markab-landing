@@ -91,7 +91,7 @@ function Footers() {
 
             {/* ================= Footer Icons */}
 
-            <ul className="flex items-center gap-6 md:gap-8 mt-5 md:mt-10 ml-24 md:ml-8">
+            <ul className="flex items-center gap-6 md:gap-8 mt-5 md:mt-10 ml-20 md:ml-8">
               {socials.length &&
                 socials.map((el, index) => (
                   <li key={index}>
