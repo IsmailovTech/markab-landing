@@ -46,7 +46,7 @@ function Footers() {
 
   return (
     <>
-      <div className="w-full bg-green-main max-h-[380px]  pb-8 md:pb-0 sm:mt-24">
+      <div className="w-full bg-green-main max-h-[380px]  pb-8 md:pb-14 sm:mt-24">
         <div className="container mx-auto px-2 sm:px-8 md:px-10 lg:px-24 xl:px-36 pt-5 flex flex-col md:flex-row">
           <div>
             <img
@@ -73,7 +73,7 @@ function Footers() {
 
           {/* ===================== Footer infos */}
           <div className=" mt-2 sm:mt-10 md:mt-20 ml-0 md:ml-8 gap-16">
-            <ul className="flex  md:gap-10">
+            <ul className="flex gap-4 md:gap-10">
               {footerData.length &&
                 footerData.map((data, index) => (
                   <ul
@@ -91,7 +91,7 @@ function Footers() {
 
             {/* ================= Footer Icons */}
 
-            <ul className="flex items-center gap-4 md:gap-8 mt-5 md:mt-10 ml-16 md:ml-8">
+            <ul className="flex items-center gap-6 md:gap-8 mt-5 md:mt-10 ml-14 md:ml-8">
               {socials.length &&
                 socials.map((el, index) => (
                   <li key={index}>

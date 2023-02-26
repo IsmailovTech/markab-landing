@@ -289,7 +289,7 @@ function MobileFilters({ lang, setLang }) {
                               <img
                                 src={samsung}
                                 alt="photo"
-                                className="flex   md:w-[428px] md:h-[567px]"
+                                className="flex   md:w-[428px] "
                               />
                             </div>
 

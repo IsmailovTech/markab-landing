@@ -1,6 +1,6 @@
 const messages = {
   uz: {
-    language: 'RU',
+    language: 'UZ',
     title:
       "Markab orqali mobil qurilmalarni bo'lib to'lashga arzon narxlarda xarid qiling!",
     main_p:
@@ -27,7 +27,7 @@ const messages = {
     place2: 'Toshkent shaxar Yunusobod tumani',
   },
   ru: {
-    language: 'UZ',
+    language: 'RU',
     title: 'Покупайте мобильные устройства по низким ценам через Markab!',
     main_p:
       'Сервис по поиску автомобиля, подходящего вам по всем параметрам (бесплатно)',
