@@ -92,7 +92,7 @@ function FormInfos({ chosedColor, chosedModel }) {
     number: Yup.number("Faqat raqam bo'lishi kerak").required("Unvalid"),
     expireDate: Yup.mixed().required("Unvalid"),
     agreeToTerms: Yup.bool().oneOf([true], "Tasdiqlang"), // added validation for checkbox
-    file: Yup.mixed()
+    passport: Yup.mixed()
       .required("Faylni yuklash kerak")
       .test(
         "fileSize",
