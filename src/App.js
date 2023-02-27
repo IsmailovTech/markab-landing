@@ -9,16 +9,20 @@ import messages from './components/message' // import messages for the component
 
 function App() {
   const [locale, setLocale] = useState('uz')
+  const [chosedColor, setChosedColor] = useState('')
+  const [chosedModel, setChosedModel] = useState('')
+
   function handleLocaleChange() {
     const newLocale = locale === 'uz' ? 'ru' : 'uz'
     setLocale(newLocale)
   }
+
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div>
         <Navbar handleLocaleChange={handleLocaleChange} />
-        <MobileFilters />
-        <FormInfos />
+        <MobileFilters setChosedColor={setChosedColor} setChosedModel={setChosedModel} />
+        <FormInfos chosedColor={chosedColor} chosedModel={chosedModel} />
         <Footers />
       </div>
     </IntlProvider>

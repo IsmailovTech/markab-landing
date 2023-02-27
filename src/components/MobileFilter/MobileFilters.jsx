@@ -112,7 +112,7 @@ const colors = [
   { name: "gray" },
 ];
 
-function MobileFilters({ lang, setLang }) {
+function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
   const [selectedModel, setSelectedModel] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
@@ -122,15 +122,18 @@ function MobileFilters({ lang, setLang }) {
 
   const handleModelClick = (model) => {
     setSelectedModel(model);
+
     setSelectedCategory(null);
   };
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
+    setChosedModel(category);
   };
 
   const handleColorSelect = (color) => {
     setSelectedColor(color);
+    setChosedColor(color);
   };
 
   const filteredPhones = phoneData.filter((phone) => {
@@ -161,9 +164,9 @@ function MobileFilters({ lang, setLang }) {
               <FormattedMessage id="models" />
             </button>
             <div className="flex flex-col max-w-[189px] md:max-w-[280px] mt-3 md:mt-4 gap-2">
-              {models.map((model) => (
+              {models.map((model, index) => (
                 <button
-                  key={model.name}
+                  key={index}
                   onClick={() => handleModelClick(model)}
                   className={`border-2  ${
                     selectedModel === model
@@ -180,10 +183,10 @@ function MobileFilters({ lang, setLang }) {
                 </button>
               ))}
             </div>
-            {filteredPhones.map((phone) => (
+            {filteredPhones.map((phone, index) => (
               <>
                 <ul
-                  key={phone.id}
+                  key={index}
                   className="flex flex-col mt-2 md:mt-8 max-w-[239px] md:max-w-none "
                 >
                   <li className="text-black font-semibold text-base md:text-2xl">
@@ -262,8 +265,8 @@ function MobileFilters({ lang, setLang }) {
                 <option value="">
                   <FormattedMessage id="categroy_choose" />
                 </option>
-                {categories.map((category) => (
-                  <option key={category} value={category}>
+                {categories.map((category, index) => (
+                  <option key={index} value={category}>
                     {category}
                   </option>
                 ))}
@@ -278,10 +281,10 @@ function MobileFilters({ lang, setLang }) {
                   <p>No phones available with the selected filters.</p>
                 ) : (
                   <div>
-                    {filteredPhones.map((phone) => (
+                    {filteredPhones.map((phone, index) => (
                       <>
                         <div
-                          key={phone.id}
+                          key={index}
                           className="flex gap-2 sm:gap-5 md:gap-10 mt-4 md:mt-8"
                         >
                           <div className="flex gap-2 md:gap-4">
@@ -318,8 +321,8 @@ function MobileFilters({ lang, setLang }) {
                             className=" w-[206px] sm:w-[350px] h-[27px] sm:max-h-[47px] bg-green-main border-green-main text-white md:ml-8 flex items-center  justify-center rounded-md text-xs sm:text-base md:text-xl"
                           >
                             <option value="">Select a Color</option>
-                            {phone.colors.map((colors) => (
-                              <option key={colors} value={colors}>
+                            {phone.colors.map((colors, index) => (
+                              <option key={index} value={colors}>
                                 {colors}
                               </option>
                             ))}

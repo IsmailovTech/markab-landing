@@ -18,23 +18,33 @@ const initialValues = {
   agreeToTerms: false, // added new field for checkbox
 };
 
-function FormInfos() {
+function FormInfos({ chosedColor, chosedModel }) {
   const onSubmit = (values, { resetForm }) => {
     const username = "ibrokhim";
     const password = "Bu8$G9VLY7^5";
+    const fullname = `${values.name} ${values.lastname} ${values.fathername}`;
     const url = "https://malika.itlink.uz/api/v1/order/create";
+
+    // Convert passport and selfie File objects to string URLs
+    const passportUrl = values.passport
+      ? URL.createObjectURL(values.passport)
+      : null;
+    const selfieUrl = values.selfie ? URL.createObjectURL(values.selfie) : null;
+
     const data = {
-      name: values.name,
+      name: fullname,
       number: values.number,
-      passport: "values.passport",
-      selfie: "values.selfie",
+      passport: passportUrl,
+      selfie: selfieUrl,
       card: values.card,
-      time: "22211",
-      model: "values.model",
-      phone: "values.phone",
-      color: "values.color",
-      type: "values.type",
+      time: values.expireDate,
+      model: chosedModel,
+      phone: chosedModel,
+      color: chosedColor,
+      type: "3",
     };
+
+    console.log(data);
 
     const auth = btoa(`${username}:${password}`);
     const options = {
@@ -313,7 +323,7 @@ function FormInfos() {
                 type="text"
                 id="floating_outlined"
                 name="expireDate"
-                className={`block px-2.5 px-2.5 py-3.5 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                className={`block  px-2.5 py-3.5 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
                   formik.touched.expireDate && formik.errors.expireDate
                     ? " border-red-600 focus:border-red-600 placeholder-red-600 "
                     : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
@@ -348,32 +358,35 @@ function FormInfos() {
                 <input
                   type="file"
                   id="file"
-                  name="file"
+                  name="passport"
                   accept=" image/jpeg, image/png, application/pdf"
                   className="block text-sm "
                   onChange={(event) => {
-                    formik.setFieldValue("file", event.currentTarget.files[0]);
+                    formik.setFieldValue(
+                      "passport",
+                      event.currentTarget.files[0]
+                    );
                   }}
                 />
 
-                {formik.touched.file && formik.errors.file && (
+                {formik.touched.passport && formik.errors.passport && (
                   <div className="text-red-600 text-sm pt-0.5">
-                    {formik.errors.file}
+                    {formik.errors.passport}
                   </div>
                 )}
 
-                {formik.values.file ? (
+                {formik.values.passport ? (
                   <div className="flex flex-col gap-2 mt-8">
-                    {formik.values.file.type.includes("image") && (
+                    {formik.values.passport.type.includes("image") && (
                       <img
-                        src={URL.createObjectURL(formik.values.file)}
+                        src={URL.createObjectURL(formik.values.passport)}
                         alt="file-preview"
                         className="h-32 w-44 sm:h-48 sm:w-80 object-contain"
                       />
                     )}
-                    {formik.values.file.type.includes("pdf") && (
+                    {formik.values.passport.type.includes("pdf") && (
                       <iframe
-                        src={URL.createObjectURL(formik.values.file)}
+                        src={URL.createObjectURL(formik.values.passport)}
                         title="file-preview"
                         className="h-32 w-44 sm:h-48 sm:w-80 object-contain"
                       ></iframe>
