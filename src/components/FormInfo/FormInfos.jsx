@@ -44,7 +44,6 @@ function FormInfos({ chosedColor, chosedModel }) {
       type: "3",
     };
 
-    console.log(data);
 
     const auth = btoa(`${username}:${password}`);
     const options = {
