@@ -31,8 +31,6 @@ function OrderResult({ userData, setVerified }) {
       })
   }
 
-  console.log(1111, userData)
-
   useEffect(() => {
     postID2()
   }, [])
@@ -94,7 +92,6 @@ function OrderResult({ userData, setVerified }) {
 
   function getMainPage() {
     if (id) {
-      console.log('okay')
     } else {
       setVerified(null)
     }
