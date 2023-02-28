@@ -6,6 +6,8 @@ import Navbar from './components/Navbar/Navbar'
 import { IntlProvider, FormattedMessage } from 'react-intl'
 import messages from './components/message' // import messages for the component
 import OrderResult from './components/OrderResult'
+import { Route, Routes } from 'react-router-dom'
+import HeaderRoutes from './HeaderRoutes'
 
 function App() {
   const [locale, setLocale] = useState('uz')
@@ -21,16 +23,26 @@ function App() {
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div>
         <Navbar handleLocaleChange={handleLocaleChange} />
-        <MobileFilters
-          setChosedColor={setChosedColor}
-          setChosedModel={setChosedModel}
-        />
-        <FormInfos chosedColor={chosedColor} chosedModel={chosedModel} />
+
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HeaderRoutes
+                setChosedColor={setChosedColor}
+                setChosedModel={setChosedModel}
+                chosedColor={chosedColor}
+                chosedModel={chosedModel}
+              />
+            }
+          />
+          <Route
+            path="/check_order_status/:id"
+            element={<OrderResult userData={[]} setVerified={null} />}
+          />
+        </Routes>
         <Footers />
       </div>
-      {/* <div>
-        <OrderResult />
-      </div> */}
     </IntlProvider>
   )
 }

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import filter from "../../Assets/images/Filtericon.svg";
 import samsung from "../../Assets/images/samsung.png";
+import iphone from "../../Assets/images/iphone.jpg";
 import correct from "../../Assets/images/correct.svg";
-import { IntlProvider, FormattedMessage } from "react-intl";
-import messages from "../message"; // import messages for the component
+import { FormattedMessage } from "react-intl";
 
 // Fake JSON data
 const phoneModelsData = [
@@ -103,13 +103,6 @@ const phoneData = [
     twelve: "1,178,205 so'm dan",
     startPay: "4,328,100 so'm dan",
   },
-];
-
-const colors = [
-  { name: "yellow" },
-  { name: "blue" },
-  { name: "green" },
-  { name: "gray" },
 ];
 
 function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
@@ -289,11 +282,25 @@ function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
                         >
                           <div className="flex gap-2 md:gap-4">
                             <div className="max-w-[428px] max-h-[567px]">
-                              <img
-                                src={samsung}
-                                alt="photo"
-                                className="flex   md:w-[428px] "
-                              />
+                              {selectedModel.name == "Samsung" ? (
+                                <img
+                                  src={samsung}
+                                  alt="photo"
+                                  className="flex   md:w-[428px] "
+                                />
+                              ) : selectedModel.name == "iPhone" ? (
+                                <img
+                                  src={iphone}
+                                  alt="photo"
+                                  className="flex   md:w-[428px] "
+                                />
+                              ) : (
+                                <img
+                                  src={samsung}
+                                  alt="photo"
+                                  className="flex   md:w-[428px] "
+                                />
+                              )}
                             </div>
 
                             <div>

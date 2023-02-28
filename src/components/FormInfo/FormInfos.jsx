@@ -5,6 +5,10 @@ import * as Yup from "yup";
 import cloud from "../../Assets/images/idi.png";
 import idimg from "../../Assets/images/IDimg.png";
 import { FormattedMessage } from "react-intl";
+import OrderResult from "../OrderResult";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import MobileFilters from "../MobileFilter/MobileFilters";
 
 const initialValues = {
   card: "",
@@ -18,39 +22,43 @@ const initialValues = {
   agreeToTerms: false, // added new field for checkbox
 };
 
-function FormInfos({ chosedColor, chosedModel }) {
+function FormInfos({
+  chosedColor,
+  chosedModel,
+  setChosedColor,
+  setChosedModel,
+}) {
+  const [orderId, setOrderId] = useState(null);
+  const [verified, setVerified] = useState(null);
+  const [userData, setUserData] = useState([]);
+  const { id } = useParams();
+
   const onSubmit = (values, { resetForm }) => {
     const username = "ibrokhim";
     const password = "Bu8$G9VLY7^5";
     const fullname = `${values.name} ${values.lastname} ${values.fathername}`;
     const url = "https://malika.itlink.uz/api/v1/order/create";
 
-
-
-    const data = {
-      name: fullname,
-      number: values.number,
-      passport: "https://i.ibb.co/8DXZFt6/IMG-20230225-210104-766.jpg",
-      selfie: "https://i.ibb.co/8DXZFt6/IMG-20230225-210104-766.jpg",
-      card: values.card,
-      time: values.expireDate,
-      model: chosedModel,
-      phone: chosedModel,
-      color: chosedColor,
-      type: "3",
-    };
-
-    console.log(data);
+    const data = new FormData();
+    data.append("name", fullname);
+    data.append("number", values.number);
+    data.append("card", values.card);
+    data.append("time", values.expireDate);
+    data.append("model", chosedModel);
+    data.append("phone", chosedModel);
+    data.append("color", chosedColor);
+    data.append("type", "3");
+    data.append("files", values.passport);
+    data.append("files", values.selfie);
 
     const auth = btoa(`${username}:${password}`);
     const options = {
       method: "POST",
       headers: {
         accept: "application/json",
-        "Content-Type": "application/json",
         Authorization: `Basic ${auth}`,
       },
-      body: JSON.stringify(data),
+      body: data,
     };
 
     fetch(url, options)
@@ -62,8 +70,8 @@ function FormInfos({ chosedColor, chosedModel }) {
         }
       })
       .then((json) => {
-        console.log(json);
         toast.success("Ma'lumotlaringiz muvaffaqiyatli jo'natildi!");
+        setOrderId(json.id);
         resetForm({ values: "" });
         document.getElementById("file").value = "";
         document.getElementById("selfie").value = "";
@@ -73,6 +81,36 @@ function FormInfos({ chosedColor, chosedModel }) {
         toast.error("Ma'lumotlarni yuborishda xatolik yuz berdi.");
       });
   };
+
+  function postID() {
+    axios
+      .post(
+        `https://malika.itlink.uz/api/v1/order/status/${orderId}`,
+        {},
+        {
+          auth: {
+            username: "ibrokhim",
+            password: "Bu8$G9VLY7^5",
+          },
+        }
+      )
+      .then((response) => {
+        setVerified(response.data.status);
+        setUserData(response.data);
+        // setOrderId(null);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  setInterval(() => {
+    if (orderId !== null) {
+      // window.open(`markab-invest.uz/check_order_status/${orderId}`);
+
+      postID();
+    }
+  }, 10000);
 
   const validationSchema = Yup.object({
     name: Yup.string().required(
@@ -138,360 +176,728 @@ function FormInfos({ chosedColor, chosedModel }) {
     formik.setFieldValue("expireDate", formattedExpireDate);
   };
 
-  return (
-    <div className="w-full mt-4">
-      <div className="w-full container mx-auto  px-2 sm:px-8 md:px-10 lg:px-24 xl:px-36">
-        <h2 className=" text-[24px] sm:text-[30px] md:text-[40px] font-semibold text-green-main max-w-[727px]">
-          <FormattedMessage id="please" />
-        </h2>
+  return verified == null ? (
+    <>
+      <MobileFilters
+        setChosedColor={setChosedColor}
+        setChosedModel={setChosedModel}
+      />
+      <div className="w-full mt-4">
+        <div className="w-full container mx-auto  px-2 sm:px-8 md:px-10 lg:px-24 xl:px-36">
+          <h2 className=" text-[24px] sm:text-[30px] md:text-[40px] font-semibold text-green-main max-w-[727px]">
+            <FormattedMessage id="please" />
+          </h2>
 
-        <form
-          onSubmit={(e) => {
-            formik.handleSubmit(e);
-            formik.values = initialValues;
-          }}
-          className="max-w-[1000px] mt-4 sm:mt-20 "
-        >
-          {/* ============================== Full name input field */}
-
-          <p className="text-gray-400 text-sm md:text-lg">
-            <FormattedMessage id="personal_info" />
-          </p>
-          <div className="flex flex-col  sm:flex-row  w-full items-center justify-between gap-4 sm:gap-6 mt-2">
-            <div className="relative w-full">
-              <input
-                type="name"
-                id="floating_outlined"
-                name="name"
-                className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
-                  formik.touched.name && formik.errors.name
-                    ? " border-red-600 focus:border-red-600 "
-                    : "border-green-main focus:border-blue-600"
-                } text-black focus:outline-none focus:ring-0  peer`}
-                placeholder=" "
-                {...formik.getFieldProps("name")}
-              />
-              <label
-                htmlFor="floating_outlined"
-                className={`absolute text-sm ${
-                  formik.touched.name && formik.errors.name
-                    ? "text-red-600 peer-focus:dark:text-red-600"
-                    : "text-green-main peer-focus:text-blue-600"
-                } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
-              >
-                <FormattedMessage id="name" />
-              </label>
-
-              {formik.touched.name && formik.errors.name ? (
-                <span className="text-red-600 text-xs absolute  left-2">
-                  {formik.errors.name}
-                </span>
-              ) : null}
-            </div>
-
-            <div className="relative w-full ">
-              <input
-                type="text"
-                id="floating_outlined"
-                name="lastname"
-                className={` block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
-                  formik.touched.lastname && formik.errors.lastname
-                    ? " border-red-600 focus:border-red-600 "
-                    : "border-green-main focus:border-blue-600"
-                } text-black focus:outline-none focus:ring-0  peer`}
-                placeholder=" "
-                {...formik.getFieldProps("lastname")}
-              />
-              <label
-                htmlFor="floating_outlined"
-                className={`absolute text-sm ${
-                  formik.touched.lastname && formik.errors.lastname
-                    ? "text-red-600 peer-focus:dark:text-red-600"
-                    : "text-green-main peer-focus:text-blue-600"
-                } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
-              >
-                <FormattedMessage id="surname" />
-              </label>
-
-              {formik.touched.lastname && formik.errors.lastname ? (
-                <span className="text-red-600 text-xs absolute  left-2">
-                  {formik.errors.lastname}
-                </span>
-              ) : null}
-            </div>
-          </div>
-          <div className="flex flex-col  sm:flex-row w-full items-center justify-between gap-4 sm:gap-6 mt-4 sm:mt-5">
-            <div className="relative w-full">
-              <input
-                type="text"
-                id="floating_outlined"
-                name="fathername"
-                className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
-                  formik.touched.fathername && formik.errors.fathername
-                    ? " border-red-600 focus:border-red-600 "
-                    : "border-green-main focus:border-blue-600"
-                } text-black focus:outline-none focus:ring-0  peer`}
-                placeholder=" "
-                {...formik.getFieldProps("fathername")}
-              />
-              <label
-                htmlFor="floating_outlined"
-                className={`absolute text-sm ${
-                  formik.touched.fathername && formik.errors.fathername
-                    ? "text-red-600 peer-focus:dark:text-red-600"
-                    : "text-green-main peer-focus:text-blue-600"
-                } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
-              >
-                <FormattedMessage id="familyname" />
-              </label>
-
-              {formik.touched.fathername && formik.errors.fathername ? (
-                <span className="text-red-600 text-xs absolute  left-2">
-                  {formik.errors.fathername}
-                </span>
-              ) : null}
-            </div>
-
-            <div className="relative w-full ">
-              <input
-                type="text"
-                id="floating_outlined"
-                name="number"
-                className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
-                  formik.touched.number && formik.errors.number
-                    ? " border-red-600 focus:border-red-600 "
-                    : "border-green-main focus:border-blue-600"
-                } text-black focus:outline-none focus:ring-0  peer`}
-                placeholder=" "
-                {...formik.getFieldProps("number")}
-              />
-              <label
-                htmlFor="floating_outlined"
-                className={`absolute text-sm ${
-                  formik.touched.number && formik.errors.number
-                    ? "text-red-600 peer-focus:dark:text-red-600"
-                    : "text-green-main peer-focus:text-blue-600"
-                } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
-              >
-                <FormattedMessage id="number" />
-              </label>
-
-              {formik.touched.number && formik.errors.number ? (
-                <span className="text-red-600 text-xs absolute  left-2">
-                  {formik.errors.number}
-                </span>
-              ) : null}
-            </div>
-          </div>
-
-          {/* ============================== Credit Card input field */}
-
-          <h4 className="text-gray-400 text-sm md:text-lg mt-5 sm:mt-8 md:mt-12">
-            <FormattedMessage id="card_info" />
-          </h4>
-          <div className="flex flex-col  sm:flex-row max-w-[575px] justify-between gap-2 sm:gap-4">
-            <div className="relative w-full mt-2">
-              <input
-                type="text"
-                id="floating_outlined"
-                name="card"
-                className={`block px-2.5 py-3.5 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
-                  formik.touched.card && formik.errors.card
-                    ? " border-red-600 focus:border-red-600 placeholder-red-600 "
-                    : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
-                } text-black focus:outline-none focus:ring-0  peer`}
-                placeholder="0000-0000-0000-0000"
-                maxLength="19"
-                minLength="19"
-                onChange={handlecardChange}
-                value={formik.values.card}
-              />
-
-              {formik.touched.card && formik.errors.card ? (
-                <span className="text-red-600 text-xs absolute  left-2">
-                  {formik.errors.card}
-                </span>
-              ) : null}
-            </div>
-
-            <div className="relative max-w-[70px] mt-2">
-              <input
-                type="text"
-                id="floating_outlined"
-                name="expireDate"
-                className={`block  px-2.5 py-3.5 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
-                  formik.touched.expireDate && formik.errors.expireDate
-                    ? " border-red-600 focus:border-red-600 placeholder-red-600 "
-                    : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
-                } text-black focus:outline-none focus:ring-0  peer`}
-                placeholder="12/25"
-                maxLength="5"
-                minLength="5"
-                onChange={handleExpireDateChange}
-                value={formik.values.expireDate}
-              />
-
-              {formik.touched.expireDate && formik.errors.expireDate ? (
-                <span className="text-red-600 text-xs absolute  left-2">
-                  {formik.errors.expireDate}
-                </span>
-              ) : null}
-            </div>
-          </div>
-
-          {/* ============================== Password input field */}
-          <h4 className="text-gray-400 text-sm md:text-lg mt-5 sm:mt-8 md:mt-12">
-            <FormattedMessage id="ID" />
-          </h4>
-          <div className="flex flex-col sm:flex-row justify-between sm:items-center mt-2 sm:mt-4">
-            <div>
-              <p className="text-green-main font-semibold text-lg md:text-xl">
-                <FormattedMessage id="ID_front" />
-              </p>
-              <p className="text-green-main md:mt-7">PDF, JPG</p>
-
-              <div className="relative mt-2 ">
-                <input
-                  type="file"
-                  id="file"
-                  name="passport"
-                  accept=" image/jpeg, image/png, application/pdf"
-                  className="block text-sm "
-                  onChange={(event) => {
-                    formik.setFieldValue(
-                      "passport",
-                      event.currentTarget.files[0]
-                    );
-                  }}
-                />
-
-                {formik.touched.passport && formik.errors.passport && (
-                  <div className="text-red-600 text-sm pt-0.5">
-                    {formik.errors.passport}
-                  </div>
-                )}
-
-                {formik.values.passport ? (
-                  <div className="flex flex-col gap-2 mt-8">
-                    {formik.values.passport.type.includes("image") && (
-                      <img
-                        src={URL.createObjectURL(formik.values.passport)}
-                        alt="file-preview"
-                        className="h-32 w-44 sm:h-48 sm:w-80 object-contain"
-                      />
-                    )}
-                    {formik.values.passport.type.includes("pdf") && (
-                      <iframe
-                        src={URL.createObjectURL(formik.values.passport)}
-                        title="file-preview"
-                        className="h-32 w-44 sm:h-48 sm:w-80 object-contain"
-                      ></iframe>
-                    )}
-                  </div>
-                ) : (
-                  <img
-                    className="h-28 w-44 sm:h-48 sm:w-80 border-2 rounded-xl mt-4 sm:mt-8"
-                    src={cloud}
-                    alt="cloud_svg "
-                  />
-                )}
-              </div>
-            </div>
-
-            <div>
-              <p className="text-green-main font-semibold text-sm md:text-lg mt-7 sm:mt-0">
-                <FormattedMessage id="ID_back" />
-              </p>
-              <p className="text-green-main md:mt-7">PDF, JPG</p>
-
-              <div className="relative mt-2 ">
-                <input
-                  type="file"
-                  id="selfie"
-                  name="selfie"
-                  accept=" image/jpeg, image/png, application/pdf"
-                  lang="ru"
-                  className="block text-sm "
-                  onChange={(event) => {
-                    formik.setFieldValue(
-                      "selfie",
-                      event.currentTarget.files[0]
-                    );
-                  }}
-                />
-
-                {formik.touched.selfie && formik.errors.selfie && (
-                  <div className="text-red-600 text-sm pt-0.5">
-                    {formik.errors.selfie}
-                  </div>
-                )}
-
-                {formik.values.selfie ? (
-                  <div className="flex flex-col gap-2 mt-8">
-                    {formik.values.selfie.type.includes("image") && (
-                      <img
-                        src={URL.createObjectURL(formik.values.selfie)}
-                        alt="file-preview"
-                        className="h-28 w-44 sm:h-48 sm:w-80  object-contain"
-                      />
-                    )}
-                    {formik.values.selfie.type.includes("pdf") && (
-                      <iframe
-                        src={URL.createObjectURL(formik.values.selfie)}
-                        title="file-preview"
-                        className="h-28 w-44 sm:h-48 sm:w-80  object-contain"
-                      ></iframe>
-                    )}
-                  </div>
-                ) : (
-                  <img
-                    src={idimg}
-                    alt="cloud_svg"
-                    className="h-28 sm:h-48   mt-8 "
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* ========================= AGREETOTERMS */}
-
-          <div className="flex items-center gap-2 sm:gap-4 justify-center ml-8 sm:ml-28 font-semibold mt-8 sm:mt-14 md:mt-16">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                name="agreeToTerms"
-                id="agreeToTerms"
-                className=" h-5  w-5 sm:h-9 sm:w-9 rounded  text-primary focus:outline-none border border-primary focus:border-primary transition duration-300 ease-in-out"
-                checked={formik.values.agreeToTerms}
-                onChange={formik.handleChange}
-              />
-
-              {formik.touched.file && formik.errors.file && (
-                <div className="absolute text-red-600 text-sm pt-10 sm:pt-14">
-                  {formik.errors.agreeToTerms}
-                </div>
-              )}
-            </div>
-            <a
-              href="https://docs.google.com/document/d/1S7CNykliwhXK-qlHmtHsQOe8Xtxzcqam/edit?usp=sharing&ouid=109094856157650499566&rtpof=true&sd=true"
-              target="_blank"
-              className=" text-sm sm:text-2xl md:text-3xl text-green-main underline"
-            >
-              <FormattedMessage id="confirm" />
-            </a>
-          </div>
-
-          <button
-            type="submit"
-            className=" border-2 border-green-main bg-transparent text-green-main px-2 py-3 sm:py-4 font-semibold text-sm sm:text-xl rounded-lg mt-8 hover:text-white hover:bg-green-main transition-all ease-in-out duration-300 mb-8 sm:mb-0"
+          <form
+            onSubmit={(e) => {
+              formik.handleSubmit(e);
+              formik.values = initialValues;
+            }}
+            className="max-w-[1000px] mt-4 sm:mt-20 "
           >
-            <FormattedMessage id="send" />
-          </button>
-        </form>
-        <Toaster position="top-center" reverseOrder={false} />
+            {/* ============================== Full name input field */}
+
+            <p className="text-gray-400 text-sm md:text-lg">
+              <FormattedMessage id="personal_info" />
+            </p>
+            <div className="flex flex-col  sm:flex-row  w-full items-center justify-between gap-4 sm:gap-6 mt-2">
+              <div className="relative w-full">
+                <input
+                  type="name"
+                  id="floating_outlined"
+                  name="name"
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.name && formik.errors.name
+                      ? " border-red-600 focus:border-red-600 "
+                      : "border-green-main focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder=" "
+                  {...formik.getFieldProps("name")}
+                />
+                <label
+                  htmlFor="floating_outlined"
+                  className={`absolute text-sm ${
+                    formik.touched.name && formik.errors.name
+                      ? "text-red-600 peer-focus:dark:text-red-600"
+                      : "text-green-main peer-focus:text-blue-600"
+                  } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
+                >
+                  <FormattedMessage id="name" />
+                </label>
+
+                {formik.touched.name && formik.errors.name ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.name}
+                  </span>
+                ) : null}
+              </div>
+
+              <div className="relative w-full ">
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  name="lastname"
+                  className={` block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.lastname && formik.errors.lastname
+                      ? " border-red-600 focus:border-red-600 "
+                      : "border-green-main focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder=" "
+                  {...formik.getFieldProps("lastname")}
+                />
+                <label
+                  htmlFor="floating_outlined"
+                  className={`absolute text-sm ${
+                    formik.touched.lastname && formik.errors.lastname
+                      ? "text-red-600 peer-focus:dark:text-red-600"
+                      : "text-green-main peer-focus:text-blue-600"
+                  } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
+                >
+                  <FormattedMessage id="surname" />
+                </label>
+
+                {formik.touched.lastname && formik.errors.lastname ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.lastname}
+                  </span>
+                ) : null}
+              </div>
+            </div>
+            <div className="flex flex-col  sm:flex-row w-full items-center justify-between gap-4 sm:gap-6 mt-4 sm:mt-5">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  name="fathername"
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.fathername && formik.errors.fathername
+                      ? " border-red-600 focus:border-red-600 "
+                      : "border-green-main focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder=" "
+                  {...formik.getFieldProps("fathername")}
+                />
+                <label
+                  htmlFor="floating_outlined"
+                  className={`absolute text-sm ${
+                    formik.touched.fathername && formik.errors.fathername
+                      ? "text-red-600 peer-focus:dark:text-red-600"
+                      : "text-green-main peer-focus:text-blue-600"
+                  } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
+                >
+                  <FormattedMessage id="familyname" />
+                </label>
+
+                {formik.touched.fathername && formik.errors.fathername ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.fathername}
+                  </span>
+                ) : null}
+              </div>
+
+              <div className="relative w-full ">
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  name="number"
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.number && formik.errors.number
+                      ? " border-red-600 focus:border-red-600 "
+                      : "border-green-main focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder=" "
+                  {...formik.getFieldProps("number")}
+                />
+                <label
+                  htmlFor="floating_outlined"
+                  className={`absolute text-sm ${
+                    formik.touched.number && formik.errors.number
+                      ? "text-red-600 peer-focus:dark:text-red-600"
+                      : "text-green-main peer-focus:text-blue-600"
+                  } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
+                >
+                  <FormattedMessage id="number" />
+                </label>
+
+                {formik.touched.number && formik.errors.number ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.number}
+                  </span>
+                ) : null}
+              </div>
+            </div>
+
+            {/* ============================== Credit Card input field */}
+
+            <h4 className="text-gray-400 text-sm md:text-lg mt-5 sm:mt-8 md:mt-12">
+              <FormattedMessage id="card_info" />
+            </h4>
+            <div className="flex flex-col  sm:flex-row max-w-[575px] justify-between gap-2 sm:gap-4">
+              <div className="relative w-full mt-2">
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  name="card"
+                  className={`block px-2.5 py-3.5 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.card && formik.errors.card
+                      ? " border-red-600 focus:border-red-600 placeholder-red-600 "
+                      : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder="0000-0000-0000-0000"
+                  maxLength="19"
+                  minLength="19"
+                  onChange={handlecardChange}
+                  value={formik.values.card}
+                />
+
+                {formik.touched.card && formik.errors.card ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.card}
+                  </span>
+                ) : null}
+              </div>
+
+              <div className="relative max-w-[70px] mt-2">
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  name="expireDate"
+                  className={`block  px-2.5 py-3.5 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.expireDate && formik.errors.expireDate
+                      ? " border-red-600 focus:border-red-600 placeholder-red-600 "
+                      : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder="12/25"
+                  maxLength="5"
+                  minLength="5"
+                  onChange={handleExpireDateChange}
+                  value={formik.values.expireDate}
+                />
+
+                {formik.touched.expireDate && formik.errors.expireDate ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.expireDate}
+                  </span>
+                ) : null}
+              </div>
+            </div>
+
+            {/* ============================== Password input field */}
+            <h4 className="text-gray-400 text-sm md:text-lg mt-5 sm:mt-8 md:mt-12">
+              <FormattedMessage id="ID" />
+            </h4>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center mt-2 sm:mt-4">
+              <div>
+                <p className="text-green-main font-semibold text-lg md:text-xl">
+                  <FormattedMessage id="ID_front" />
+                </p>
+                <p className="text-green-main md:mt-7">PDF, JPG</p>
+
+                <div className="relative mt-2 ">
+                  <input
+                    type="file"
+                    id="file"
+                    name="passport"
+                    accept=" image/jpeg, image/png, application/pdf"
+                    className="block text-sm "
+                    onChange={(event) => {
+                      formik.setFieldValue(
+                        "passport",
+                        event.currentTarget.files[0]
+                      );
+                    }}
+                  />
+
+                  {formik.touched.passport && formik.errors.passport && (
+                    <div className="text-red-600 text-sm pt-0.5">
+                      {formik.errors.passport}
+                    </div>
+                  )}
+
+                  {formik.values.passport ? (
+                    <div className="flex flex-col gap-2 mt-8">
+                      {formik.values.passport.type.includes("image") && (
+                        <img
+                          src={URL.createObjectURL(formik.values.passport)}
+                          alt="file-preview"
+                          className="h-32 w-44 sm:h-48 sm:w-80 object-contain"
+                        />
+                      )}
+                      {formik.values.passport.type.includes("pdf") && (
+                        <iframe
+                          src={URL.createObjectURL(formik.values.passport)}
+                          title="file-preview"
+                          className="h-32 w-44 sm:h-48 sm:w-80 object-contain"
+                        ></iframe>
+                      )}
+                    </div>
+                  ) : (
+                    <img
+                      className="h-28 w-44 sm:h-48 sm:w-80 border-2 rounded-xl mt-4 sm:mt-8"
+                      src={cloud}
+                      alt="cloud_svg "
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-green-main font-semibold text-sm md:text-lg mt-7 sm:mt-0">
+                  <FormattedMessage id="ID_back" />
+                </p>
+                <p className="text-green-main md:mt-7">PDF, JPG</p>
+
+                <div className="relative mt-2 ">
+                  <input
+                    type="file"
+                    id="selfie"
+                    name="selfie"
+                    accept=" image/jpeg, image/png, application/pdf"
+                    lang="ru"
+                    className="block text-sm "
+                    onChange={(event) => {
+                      formik.setFieldValue(
+                        "selfie",
+                        event.currentTarget.files[0]
+                      );
+                    }}
+                  />
+
+                  {formik.touched.selfie && formik.errors.selfie && (
+                    <div className="text-red-600 text-sm pt-0.5">
+                      {formik.errors.selfie}
+                    </div>
+                  )}
+
+                  {formik.values.selfie ? (
+                    <div className="flex flex-col gap-2 mt-8">
+                      {formik.values.selfie.type.includes("image") && (
+                        <img
+                          src={URL.createObjectURL(formik.values.selfie)}
+                          alt="file-preview"
+                          className="h-28 w-44 sm:h-48 sm:w-80  object-contain"
+                        />
+                      )}
+                      {formik.values.selfie.type.includes("pdf") && (
+                        <iframe
+                          src={URL.createObjectURL(formik.values.selfie)}
+                          title="file-preview"
+                          className="h-28 w-44 sm:h-48 sm:w-80  object-contain"
+                        ></iframe>
+                      )}
+                    </div>
+                  ) : (
+                    <img
+                      src={idimg}
+                      alt="cloud_svg"
+                      className="h-28 sm:h-48   mt-8 "
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* ========================= AGREETOTERMS */}
+
+            <div className="flex items-center gap-2 sm:gap-4 justify-center ml-8 sm:ml-28 font-semibold mt-8 sm:mt-14 md:mt-16">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="agreeToTerms"
+                  id="agreeToTerms"
+                  className=" h-5  w-5 sm:h-9 sm:w-9 rounded  text-primary focus:outline-none border border-primary focus:border-primary transition duration-300 ease-in-out"
+                  checked={formik.values.agreeToTerms}
+                  onChange={formik.handleChange}
+                />
+
+                {formik.touched.file && formik.errors.file && (
+                  <div className="absolute text-red-600 text-sm pt-10 sm:pt-14">
+                    {formik.errors.agreeToTerms}
+                  </div>
+                )}
+              </div>
+              <a
+                href="https://docs.google.com/document/d/1S7CNykliwhXK-qlHmtHsQOe8Xtxzcqam/edit?usp=sharing&ouid=109094856157650499566&rtpof=true&sd=true"
+                target="_blank"
+                className=" text-sm sm:text-2xl md:text-3xl text-green-main underline"
+              >
+                <FormattedMessage id="confirm" />
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              className=" border-2 border-green-main bg-transparent text-green-main px-2 py-3 sm:py-4 font-semibold text-sm sm:text-xl rounded-lg mt-8 hover:text-white hover:bg-green-main transition-all ease-in-out duration-300 mb-8 sm:mb-0"
+            >
+              <FormattedMessage id="send" />
+            </button>
+          </form>
+          <Toaster position="top-center" reverseOrder={false} />
+        </div>
       </div>
-    </div>
+    </>
+  ) : verified == true ? (
+    <OrderResult userData={userData} setVerified={setVerified} />
+  ) : (
+    <>
+      <MobileFilters
+        setChosedColor={setChosedColor}
+        setChosedModel={setChosedModel}
+      />
+      <div className="w-full mt-4">
+        <div className="w-full container mx-auto  px-2 sm:px-8 md:px-10 lg:px-24 xl:px-36">
+          <h2 className=" text-[24px] sm:text-[30px] md:text-[40px] font-semibold text-green-main max-w-[727px]">
+            <FormattedMessage id="please" />
+          </h2>
+
+          <form
+            onSubmit={(e) => {
+              formik.handleSubmit(e);
+              formik.values = initialValues;
+            }}
+            className="max-w-[1000px] mt-4 sm:mt-20 "
+          >
+            {/* ============================== Full name input field */}
+
+            <p className="text-gray-400 text-sm md:text-lg">
+              <FormattedMessage id="personal_info" />
+            </p>
+            <div className="flex flex-col  sm:flex-row  w-full items-center justify-between gap-4 sm:gap-6 mt-2">
+              <div className="relative w-full">
+                <input
+                  type="name"
+                  id="floating_outlined"
+                  name="name"
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.name && formik.errors.name
+                      ? " border-red-600 focus:border-red-600 "
+                      : "border-green-main focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder=" "
+                  {...formik.getFieldProps("name")}
+                />
+                <label
+                  htmlFor="floating_outlined"
+                  className={`absolute text-sm ${
+                    formik.touched.name && formik.errors.name
+                      ? "text-red-600 peer-focus:dark:text-red-600"
+                      : "text-green-main peer-focus:text-blue-600"
+                  } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
+                >
+                  <FormattedMessage id="name" />
+                </label>
+
+                {formik.touched.name && formik.errors.name ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.name}
+                  </span>
+                ) : null}
+              </div>
+
+              <div className="relative w-full ">
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  name="lastname"
+                  className={` block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.lastname && formik.errors.lastname
+                      ? " border-red-600 focus:border-red-600 "
+                      : "border-green-main focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder=" "
+                  {...formik.getFieldProps("lastname")}
+                />
+                <label
+                  htmlFor="floating_outlined"
+                  className={`absolute text-sm ${
+                    formik.touched.lastname && formik.errors.lastname
+                      ? "text-red-600 peer-focus:dark:text-red-600"
+                      : "text-green-main peer-focus:text-blue-600"
+                  } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
+                >
+                  <FormattedMessage id="surname" />
+                </label>
+
+                {formik.touched.lastname && formik.errors.lastname ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.lastname}
+                  </span>
+                ) : null}
+              </div>
+            </div>
+            <div className="flex flex-col  sm:flex-row w-full items-center justify-between gap-4 sm:gap-6 mt-4 sm:mt-5">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  name="fathername"
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.fathername && formik.errors.fathername
+                      ? " border-red-600 focus:border-red-600 "
+                      : "border-green-main focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder=" "
+                  {...formik.getFieldProps("fathername")}
+                />
+                <label
+                  htmlFor="floating_outlined"
+                  className={`absolute text-sm ${
+                    formik.touched.fathername && formik.errors.fathername
+                      ? "text-red-600 peer-focus:dark:text-red-600"
+                      : "text-green-main peer-focus:text-blue-600"
+                  } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
+                >
+                  <FormattedMessage id="familyname" />
+                </label>
+
+                {formik.touched.fathername && formik.errors.fathername ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.fathername}
+                  </span>
+                ) : null}
+              </div>
+
+              <div className="relative w-full ">
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  name="number"
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.number && formik.errors.number
+                      ? " border-red-600 focus:border-red-600 "
+                      : "border-green-main focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder=" "
+                  {...formik.getFieldProps("number")}
+                />
+                <label
+                  htmlFor="floating_outlined"
+                  className={`absolute text-sm ${
+                    formik.touched.number && formik.errors.number
+                      ? "text-red-600 peer-focus:dark:text-red-600"
+                      : "text-green-main peer-focus:text-blue-600"
+                  } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
+                >
+                  <FormattedMessage id="number" />
+                </label>
+
+                {formik.touched.number && formik.errors.number ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.number}
+                  </span>
+                ) : null}
+              </div>
+            </div>
+
+            {/* ============================== Credit Card input field */}
+
+            <h4 className="text-gray-400 text-sm md:text-lg mt-5 sm:mt-8 md:mt-12">
+              <FormattedMessage id="card_info" />
+            </h4>
+            <div className="flex flex-col  sm:flex-row max-w-[575px] justify-between gap-2 sm:gap-4">
+              <div className="relative w-full mt-2">
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  name="card"
+                  className={`block px-2.5 py-3.5 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.card && formik.errors.card
+                      ? " border-red-600 focus:border-red-600 placeholder-red-600 "
+                      : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder="0000-0000-0000-0000"
+                  maxLength="19"
+                  minLength="19"
+                  onChange={handlecardChange}
+                  value={formik.values.card}
+                />
+
+                {formik.touched.card && formik.errors.card ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.card}
+                  </span>
+                ) : null}
+              </div>
+
+              <div className="relative max-w-[70px] mt-2">
+                <input
+                  type="text"
+                  id="floating_outlined"
+                  name="expireDate"
+                  className={`block  px-2.5 py-3.5 w-full text-sm border-2 bg-transparent rounded-lg border-1  appearance-none text-black  ${
+                    formik.touched.expireDate && formik.errors.expireDate
+                      ? " border-red-600 focus:border-red-600 placeholder-red-600 "
+                      : "border-green-main placeholder-green-main focus:placeholder-blue-600 focus:border-blue-600"
+                  } text-black focus:outline-none focus:ring-0  peer`}
+                  placeholder="12/25"
+                  maxLength="5"
+                  minLength="5"
+                  onChange={handleExpireDateChange}
+                  value={formik.values.expireDate}
+                />
+
+                {formik.touched.expireDate && formik.errors.expireDate ? (
+                  <span className="text-red-600 text-xs absolute  left-2">
+                    {formik.errors.expireDate}
+                  </span>
+                ) : null}
+              </div>
+            </div>
+
+            {/* ============================== Password input field */}
+            <h4 className="text-gray-400 text-sm md:text-lg mt-5 sm:mt-8 md:mt-12">
+              <FormattedMessage id="ID" />
+            </h4>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center mt-2 sm:mt-4">
+              <div>
+                <p className="text-green-main font-semibold text-lg md:text-xl">
+                  <FormattedMessage id="ID_front" />
+                </p>
+                <p className="text-green-main md:mt-7">PDF, JPG</p>
+
+                <div className="relative mt-2 ">
+                  <input
+                    type="file"
+                    id="file"
+                    name="passport"
+                    accept=" image/jpeg, image/png, application/pdf"
+                    className="block text-sm "
+                    onChange={(event) => {
+                      formik.setFieldValue(
+                        "passport",
+                        event.currentTarget.files[0]
+                      );
+                    }}
+                  />
+
+                  {formik.touched.passport && formik.errors.passport && (
+                    <div className="text-red-600 text-sm pt-0.5">
+                      {formik.errors.passport}
+                    </div>
+                  )}
+
+                  {formik.values.passport ? (
+                    <div className="flex flex-col gap-2 mt-8">
+                      {formik.values.passport.type.includes("image") && (
+                        <img
+                          src={URL.createObjectURL(formik.values.passport)}
+                          alt="file-preview"
+                          className="h-32 w-44 sm:h-48 sm:w-80 object-contain"
+                        />
+                      )}
+                      {formik.values.passport.type.includes("pdf") && (
+                        <iframe
+                          src={URL.createObjectURL(formik.values.passport)}
+                          title="file-preview"
+                          className="h-32 w-44 sm:h-48 sm:w-80 object-contain"
+                        ></iframe>
+                      )}
+                    </div>
+                  ) : (
+                    <img
+                      className="h-28 w-44 sm:h-48 sm:w-80 border-2 rounded-xl mt-4 sm:mt-8"
+                      src={cloud}
+                      alt="cloud_svg "
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-green-main font-semibold text-sm md:text-lg mt-7 sm:mt-0">
+                  <FormattedMessage id="ID_back" />
+                </p>
+                <p className="text-green-main md:mt-7">PDF, JPG</p>
+
+                <div className="relative mt-2 ">
+                  <input
+                    type="file"
+                    id="selfie"
+                    name="selfie"
+                    accept=" image/jpeg, image/png, application/pdf"
+                    lang="ru"
+                    className="block text-sm "
+                    onChange={(event) => {
+                      formik.setFieldValue(
+                        "selfie",
+                        event.currentTarget.files[0]
+                      );
+                    }}
+                  />
+
+                  {formik.touched.selfie && formik.errors.selfie && (
+                    <div className="text-red-600 text-sm pt-0.5">
+                      {formik.errors.selfie}
+                    </div>
+                  )}
+
+                  {formik.values.selfie ? (
+                    <div className="flex flex-col gap-2 mt-8">
+                      {formik.values.selfie.type.includes("image") && (
+                        <img
+                          src={URL.createObjectURL(formik.values.selfie)}
+                          alt="file-preview"
+                          className="h-28 w-44 sm:h-48 sm:w-80  object-contain"
+                        />
+                      )}
+                      {formik.values.selfie.type.includes("pdf") && (
+                        <iframe
+                          src={URL.createObjectURL(formik.values.selfie)}
+                          title="file-preview"
+                          className="h-28 w-44 sm:h-48 sm:w-80  object-contain"
+                        ></iframe>
+                      )}
+                    </div>
+                  ) : (
+                    <img
+                      src={idimg}
+                      alt="cloud_svg"
+                      className="h-28 sm:h-48   mt-8 "
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* ========================= AGREETOTERMS */}
+
+            <div className="flex items-center gap-2 sm:gap-4 justify-center ml-8 sm:ml-28 font-semibold mt-8 sm:mt-14 md:mt-16">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="agreeToTerms"
+                  id="agreeToTerms"
+                  className=" h-5  w-5 sm:h-9 sm:w-9 rounded  text-primary focus:outline-none border border-primary focus:border-primary transition duration-300 ease-in-out"
+                  checked={formik.values.agreeToTerms}
+                  onChange={formik.handleChange}
+                />
+
+                {formik.touched.file && formik.errors.file && (
+                  <div className="absolute text-red-600 text-sm pt-10 sm:pt-14">
+                    {formik.errors.agreeToTerms}
+                  </div>
+                )}
+              </div>
+              <a
+                href="https://docs.google.com/document/d/1S7CNykliwhXK-qlHmtHsQOe8Xtxzcqam/edit?usp=sharing&ouid=109094856157650499566&rtpof=true&sd=true"
+                target="_blank"
+                className=" text-sm sm:text-2xl md:text-3xl text-green-main underline"
+              >
+                <FormattedMessage id="confirm" />
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              className=" border-2 border-green-main bg-transparent text-green-main px-2 py-3 sm:py-4 font-semibold text-sm sm:text-xl rounded-lg mt-8 hover:text-white hover:bg-green-main transition-all ease-in-out duration-300 mb-8 sm:mb-0"
+            >
+              <FormattedMessage id="send" />
+            </button>
+          </form>
+          <Toaster position="top-center" reverseOrder={false} />
+        </div>
+      </div>
+    </>
   );
 }
 
