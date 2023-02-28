@@ -3,9 +3,9 @@ import Footers from './components/Footer/Footers'
 import FormInfos from './components/FormInfo/FormInfos'
 import MobileFilters from './components/MobileFilter/MobileFilters'
 import Navbar from './components/Navbar/Navbar'
-import TestFilter from './components/TestFilter'
 import { IntlProvider, FormattedMessage } from 'react-intl'
 import messages from './components/message' // import messages for the component
+import OrderResult from './components/OrderResult'
 
 function App() {
   const [locale, setLocale] = useState('uz')
@@ -21,10 +21,16 @@ function App() {
     <IntlProvider locale={locale} messages={messages[locale]}>
       <div>
         <Navbar handleLocaleChange={handleLocaleChange} />
-        <MobileFilters setChosedColor={setChosedColor} setChosedModel={setChosedModel} />
+        <MobileFilters
+          setChosedColor={setChosedColor}
+          setChosedModel={setChosedModel}
+        />
         <FormInfos chosedColor={chosedColor} chosedModel={chosedModel} />
         <Footers />
       </div>
+      {/* <div>
+        <OrderResult />
+      </div> */}
     </IntlProvider>
   )
 }

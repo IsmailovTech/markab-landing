@@ -25,17 +25,13 @@ function FormInfos({ chosedColor, chosedModel }) {
     const fullname = `${values.name} ${values.lastname} ${values.fathername}`;
     const url = "https://malika.itlink.uz/api/v1/order/create";
 
-    // Convert passport and selfie File objects to string URLs
-    const passportUrl = values.passport
-      ? URL.createObjectURL(values.passport)
-      : null;
-    const selfieUrl = values.selfie ? URL.createObjectURL(values.selfie) : null;
+
 
     const data = {
       name: fullname,
       number: values.number,
-      passport: passportUrl,
-      selfie: selfieUrl,
+      passport: "https://i.ibb.co/8DXZFt6/IMG-20230225-210104-766.jpg",
+      selfie: "https://i.ibb.co/8DXZFt6/IMG-20230225-210104-766.jpg",
       card: values.card,
       time: values.expireDate,
       model: chosedModel,
@@ -44,6 +40,7 @@ function FormInfos({ chosedColor, chosedModel }) {
       type: "3",
     };
 
+    console.log(data);
 
     const auth = btoa(`${username}:${password}`);
     const options = {

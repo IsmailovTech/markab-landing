@@ -164,9 +164,9 @@ function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
               <FormattedMessage id="models" />
             </button>
             <div className="flex flex-col max-w-[189px] md:max-w-[280px] mt-3 md:mt-4 gap-2">
-              {models.map((model, index) => (
+              {models.map((model, id) => (
                 <button
-                  key={index}
+                  key={id}
                   onClick={() => handleModelClick(model)}
                   className={`border-2  ${
                     selectedModel === model
@@ -265,8 +265,8 @@ function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
                 <option value="">
                   <FormattedMessage id="categroy_choose" />
                 </option>
-                {categories.map((category, index) => (
-                  <option key={index} value={category}>
+                {categories.map((category, id) => (
+                  <option key={id} value={category}>
                     {category}
                   </option>
                 ))}
@@ -281,10 +281,10 @@ function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
                   <p>No phones available with the selected filters.</p>
                 ) : (
                   <div>
-                    {filteredPhones.map((phone, index) => (
+                    {filteredPhones.map((phone, id) => (
                       <>
                         <div
-                          key={index}
+                          key={id}
                           className="flex gap-2 sm:gap-5 md:gap-10 mt-4 md:mt-8"
                         >
                           <div className="flex gap-2 md:gap-4">
