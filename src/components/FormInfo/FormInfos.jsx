@@ -333,7 +333,7 @@ function FormInfos({
             <h4 className="text-gray-400 text-sm md:text-lg mt-5 sm:mt-8 md:mt-12">
               <FormattedMessage id="card_info" />
             </h4>
-            <div className="flex flex-col  sm:flex-row max-w-[575px] justify-between gap-2 sm:gap-4">
+            <div className="flex flex-row max-w-[575px] justify-between gap-2 sm:gap-4">
               <div className="relative w-full mt-2">
                 <input
                   type="text"
@@ -387,8 +387,8 @@ function FormInfos({
             <h4 className="text-gray-400 text-sm md:text-lg mt-5 sm:mt-8 md:mt-12">
               <FormattedMessage id="ID" />
             </h4>
-            <div className="flex flex-col sm:flex-row justify-between sm:items-center mt-2 sm:mt-4">
-              <div>
+            <div className="flex flex-col gap-5 md:gap-0 sm:flex-row justify-between sm:items-center mt-2 sm:mt-4">
+              <div className="bg-[#D9D9D9] md:bg-transparent p-3 md:p-0">
                 <p className="text-green-main font-semibold text-lg md:text-xl">
                   <FormattedMessage id="ID_front" />
                 </p>
@@ -442,7 +442,7 @@ function FormInfos({
                 </div>
               </div>
 
-              <div>
+              <div className="bg-[#D9D9D9] md:bg-transparent p-3 md:p-0">
                 <p className="text-green-main font-semibold text-sm md:text-lg mt-7 sm:mt-0">
                   <FormattedMessage id="ID_back" />
                 </p>
@@ -532,7 +532,7 @@ function FormInfos({
 
             <button
               type="submit"
-              className=" border-2 border-green-main bg-transparent text-green-main px-2 py-3 sm:py-4 font-semibold text-sm sm:text-xl rounded-lg mt-8 hover:text-white hover:bg-green-main transition-all ease-in-out duration-300 mb-8 sm:mb-0"
+              className="w-full md:w-auto border-2 border-green-main bg-transparent text-green-main px-2 py-3 sm:py-4 font-semibold text-sm sm:text-xl rounded-lg mt-8 hover:text-white hover:bg-green-main transition-all ease-in-out duration-300 mb-8 sm:mb-0"
             >
               <FormattedMessage id="send" />
             </button>
