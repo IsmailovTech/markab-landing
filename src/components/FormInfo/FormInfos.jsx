@@ -520,7 +520,7 @@ function FormInfos({
               <a
                 href={
                   locale == "uz"
-                    ? "https://docs.google.com/document/d/1J3OovB27CmHhjXoqJ-P-Q7nxBGzdJ_qw/edit?usp=sharing&ouid=112145491080108137465&rtpof=true&sd=true"
+                    ? "https://docs.google.com/document/d/1yRVa77xhIjK7KXzRFJRvdfQxWgAKLoH9/edit"
                     : "https://docs.google.com/document/d/1S7CNykliwhXK-qlHmtHsQOe8Xtxzcqam/edit"
                 }
                 target="_blank"
