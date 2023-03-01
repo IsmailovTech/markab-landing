@@ -27,6 +27,7 @@ function FormInfos({
   chosedModel,
   setChosedColor,
   setChosedModel,
+  locale,
 }) {
   const [orderId, setOrderId] = useState(null);
   const [verified, setVerified] = useState(null);
@@ -517,7 +518,11 @@ function FormInfos({
                 )}
               </div>
               <a
-                href="https://docs.google.com/document/d/1S7CNykliwhXK-qlHmtHsQOe8Xtxzcqam/edit?usp=sharing&ouid=109094856157650499566&rtpof=true&sd=true"
+                href={
+                  locale == "uz"
+                    ? "https://docs.google.com/document/d/1J3OovB27CmHhjXoqJ-P-Q7nxBGzdJ_qw/edit?usp=sharing&ouid=112145491080108137465&rtpof=true&sd=true"
+                    : "https://docs.google.com/document/d/1S7CNykliwhXK-qlHmtHsQOe8Xtxzcqam/edit"
+                }
                 target="_blank"
                 className=" text-sm sm:text-2xl md:text-3xl text-green-main underline"
               >

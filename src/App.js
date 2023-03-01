@@ -33,6 +33,7 @@ function App() {
                 setChosedModel={setChosedModel}
                 chosedColor={chosedColor}
                 chosedModel={chosedModel}
+                locale={locale}
               />
             }
           />

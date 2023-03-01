@@ -34,61 +34,6 @@ function OrderResult({ userData, setVerified }) {
   useEffect(() => {
     postID2()
   }, [])
-  // // const [userData, setuserData] = useState(null)
-  // // const [orderId, setOrderId] = useState(null)
-
-  // useEffect(() => {
-  //   // Make API call to retrieve order status
-  //   axios
-  //     .post(
-  //       `https://malika.itlink.uz/api/v1/order/status/${orderId}`,
-  //       {},
-  //       {
-  //         auth: {
-  //           username: 'ibrokhim',
-  //           password: 'Bu8$G9VLY7^5',
-  //         },
-  //       },
-  //     )
-  //     .then((response) => {
-  //       console.log(111111, response)
-  //       // setuserData(response.data)
-  //       // setOrderId(response.id)
-  //     })
-  //     .catch((error) => {
-  //       console.error(error)
-  //     })
-  // }, [])
-
-  // function postID() {
-  //   axios
-  //     .post(
-  //       `markab-invest.uz/check_order_status/${orderId}`,
-  //       {},
-  //       {
-  //         auth: {
-  //           username: 'ibrokhim',
-  //           password: 'Bu8$G9VLY7^5',
-  //         },
-  //       },
-  //     )
-  //     .then((response) => {
-  //       console.log(111111, response)
-  //       setuserData(response.data)
-  //       setOrderId(response.id)
-  //     })
-  //     .catch((error) => {
-  //       console.error(error)
-  //     })
-  // }
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (orderId !== null) {
-  //       window.open(`markab-invest.uz/check_order_status/${orderId}`)
-  //     }
-  //   }, 1000)
-  // }, [orderId])
 
   function getMainPage() {
     if (id) {

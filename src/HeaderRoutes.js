@@ -7,6 +7,7 @@ function HeaderRoutes({
   setChosedModel,
   chosedColor,
   chosedModel,
+  locale,
 }) {
   return (
     <>
@@ -15,6 +16,7 @@ function HeaderRoutes({
         chosedModel={chosedModel}
         setChosedColor={setChosedColor}
         setChosedModel={setChosedModel}
+        locale={locale}
       />
     </>
   )
