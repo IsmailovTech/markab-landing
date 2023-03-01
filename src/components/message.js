@@ -33,6 +33,8 @@ const messages = {
     bajarildi: 'Buyurtma muvaffaqiyatli bajariladi',
     tezorada: "Tez orada siz bilan bog'lanamiz!",
     asosiy: "Asosiy sahifaga o'ting",
+    topish:
+      'Sizga har tomonlama mos keladigan mobil qurilmani topib berish xizmati (bepul)',
   },
   ru: {
     language: 'RU',
@@ -67,6 +69,8 @@ const messages = {
     bajarildi: 'Заказ успешно выполнен',
     tezorada: 'Мы свяжемся с вами в ближайшее время!',
     asosiy: 'Перейти на главную',
+    topish:
+      'Сервис по поиску мобильного устройства, подходящего вам по всем параметрам (бесплатно)',
   },
 }
 

@@ -152,11 +152,11 @@ function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
         <div className="border-y border-black mt-16 flex flex-col md:flex-row">
           {/* ============================ Models */}
           <div className=" md:border-r md:border-black md:w-[400px]  md:pr-4 md:min-h-[700px]">
-            <button className="text-white bg-gradient-to-br mt-2 from-green-main to-emerald-400 hover:bg-gradient-to-bl text-[29px] sm:text-[35px]  md:text-[40px] w-[270px] sm:w-[300px]  md:w-[361px] text-center flex items-center justify-start px-6 gap-8 sm:gap-10 md:gap-14 rounded-lg ">
+            <button className="text-white bg-gradient-to-br mt-2 from-green-main to-emerald-400 hover:bg-gradient-to-bl text-[29px] sm:text-[35px]  md:text-[40px] w-full sm:w-[300px]  md:w-[361px] text-center flex items-center justify-center md:justify-start  md:px-6 gap-4 sm:gap-10 md:gap-14 rounded-lg ">
               <img src={filter} alt="filter icon" />
               <FormattedMessage id="models" />
             </button>
-            <div className="flex flex-col max-w-[189px] md:max-w-[280px] mt-3 md:mt-4 gap-2">
+            <div className="flex flex-row justify-between md:flex-col  md:max-w-[280px] mt-3 md:mt-4 gap-2">
               {models.map((model, id) => (
                 <button
                   key={id}
@@ -164,8 +164,8 @@ function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
                   className={`border-2  ${
                     selectedModel === model
                       ? "border-emerald-700 flex items-center pl-5 gap-2 text-emerald-700 bg-emerald-50"
-                      : "border-green-main pl-10 text-green-main"
-                  }  hover:border-emerald-700 py-2 rounded-lg text-base sm:text-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all text-left pr-2`}
+                      : "border-green-main md:pl-10 text-green-main"
+                  }  hover:border-emerald-700 py-2 w-full text-center rounded-lg text-base sm:text-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all md:text-left pr-2`}
                 >
                   {selectedModel === model ? (
                     <img src={correct} alt="icon" />
@@ -241,7 +241,7 @@ function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
               <FormattedMessage id="model_choose" />
             </h2>
             {/* ==================== Selecting options */}
-            <div className="categories max-w-[189px] sm:max-w-[285px] mt-2 md:mt-8 ">
+            <div className="categories  sm:max-w-[285px] mt-2 md:mt-8 ">
               <h2 className=" h-[31px] md:h-[47px] bg-green-main text-white flex items-center justify-center rounded-md text-base sm:text-xl ">
                 {selectedModel ? (
                   selectedModel.name
