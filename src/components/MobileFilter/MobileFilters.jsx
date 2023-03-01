@@ -325,7 +325,7 @@ function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
                             value={selectedColor ? selectedColor : ""}
                             onChange={(e) => handleColorSelect(e.target.value)}
                             disabled={!selectedModel}
-                            className=" w-[206px] sm:w-[350px] h-[27px] sm:max-h-[47px] bg-green-main border-green-main text-white md:ml-8 flex items-center  justify-center rounded-md text-xs sm:text-base md:text-xl"
+                            className=" w-[206px] sm:w-[350px] h-[40px] sm:max-h-[47px] bg-green-main border-green-main text-white md:ml-8 flex items-center  justify-center rounded-md text-xs sm:text-base md:text-xl "
                           >
                             <option value="">Select a Color</option>
                             {phone.colors.map((colors, index) => (
