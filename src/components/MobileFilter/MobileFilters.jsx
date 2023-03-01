@@ -105,7 +105,7 @@ const phoneData = [
   },
 ];
 
-function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
+function MobileFilters({ setChosedColor, setChosedModel, locale }) {
   const [selectedModel, setSelectedModel] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
@@ -242,7 +242,7 @@ function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
             </h2>
             {/* ==================== Selecting options */}
             <div className="categories  sm:max-w-[285px] mt-2 md:mt-8 ">
-              <h2 className=" h-[31px] md:h-[47px] bg-green-main text-white flex items-center justify-center rounded-md text-base sm:text-xl ">
+              <h2 className=" h-[47px] bg-green-main text-white flex items-center justify-center rounded-md text-base sm:text-xl ">
                 {selectedModel ? (
                   selectedModel.name
                 ) : (
@@ -253,7 +253,7 @@ function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
                 value={selectedCategory ? selectedCategory : ""}
                 onChange={(e) => handleCategorySelect(e.target.value)}
                 disabled={!selectedModel}
-                className=" w-full h-[31px] md:h-[47px] mb-4 md:mb-0 bg-transparent  text-green-main border-2 border-green-main outline-emerald-700 mt-3 flex items-center justify-center rounded-md text-base sm:text-xl "
+                className=" w-full h-[47px] mb-4 md:mb-0 bg-transparent  text-green-main border-2 border-green-main outline-emerald-700 mt-3 flex items-center justify-center rounded-md text-base sm:text-xl "
               >
                 <option value="">
                   <FormattedMessage id="categroy_choose" />
@@ -327,7 +327,11 @@ function MobileFilters({ lang, setLang, setChosedColor, setChosedModel }) {
                             disabled={!selectedModel}
                             className=" w-[206px] sm:w-[350px] h-[40px] sm:max-h-[47px] bg-green-main border-green-main text-white md:ml-8 flex items-center  justify-center rounded-md text-xs sm:text-base md:text-xl "
                           >
-                            <option value="">Select a Color</option>
+                            <option value="">
+                              {locale == "uz"
+                                ? "Rangni tanlang"
+                                : "выберите цвет"}
+                            </option>
                             {phone.colors.map((colors, index) => (
                               <option key={index} value={colors}>
                                 {colors}

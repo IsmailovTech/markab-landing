@@ -182,6 +182,7 @@ function FormInfos({
       <MobileFilters
         setChosedColor={setChosedColor}
         setChosedModel={setChosedModel}
+        locale={locale}
       />
       <div className="w-full mt-4">
         <div className="w-full container mx-auto  px-2 sm:px-8 md:px-10 lg:px-24 xl:px-36">
@@ -388,13 +389,13 @@ function FormInfos({
               <FormattedMessage id="ID" />
             </h4>
             <div className="flex flex-col gap-5 md:gap-0 sm:flex-row justify-between sm:items-center mt-2 sm:mt-4">
-              <div className="bg-[#D9D9D9] md:bg-transparent p-3 md:p-0">
-                <p className="text-green-main font-semibold text-lg md:text-xl">
+              <div className="bg-[#D9D9D9] bg-opacity-30 md:bg-transparent p-3 md:p-0 ">
+                <p className="text-green-main font-semibold text-base md:text-lg ">
                   <FormattedMessage id="ID_front" />
                 </p>
-                <p className="text-green-main md:mt-7">PDF, JPG</p>
+                <p className="text-green-main  md:mt-7">PDF, JPG</p>
 
-                <div className="relative mt-2 ">
+                <div className="relative mt-2 mr-0">
                   <input
                     type="file"
                     id="file"
@@ -441,9 +442,9 @@ function FormInfos({
                   )}
                 </div>
               </div>
-
-              <div className="bg-[#D9D9D9] md:bg-transparent p-3 md:p-0">
-                <p className="text-green-main font-semibold text-sm md:text-lg mt-7 sm:mt-0">
+              {/* ============== */}
+              <div className="bg-[#D9D9D9] bg-opacity-30 md:bg-transparent p-3 md:p-0">
+                <p className="text-green-main font-semibold text-base md:text-lg md:mt-7">
                   <FormattedMessage id="ID_back" />
                 </p>
                 <p className="text-green-main md:mt-7">PDF, JPG</p>
@@ -532,7 +533,7 @@ function FormInfos({
 
             <button
               type="submit"
-              className="w-full md:w-auto border-2 border-green-main bg-transparent text-green-main px-2 py-3 sm:py-4 font-semibold text-sm sm:text-xl rounded-lg mt-8 hover:text-white hover:bg-green-main transition-all ease-in-out duration-300 mb-8 sm:mb-0"
+              className="w-full md:w-auto border-2  border-green-main bg-transparent text-green-main px-2 py-4 font-semibold text-sm sm:text-xl rounded-lg mt-8 hover:text-white hover:bg-green-main transition-all ease-in-out duration-300 mb-8 sm:mb-0"
             >
               <FormattedMessage id="send" />
             </button>
